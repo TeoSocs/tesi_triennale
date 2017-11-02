@@ -1,0 +1,88 @@
+\documentclass[12pt,twoside]{report}
+
+\usepackage[utf8]{inputenc}
+\usepackage[italian]{babel}
+\usepackage[hidelinks]{hyperref}
+\usepackage{cite}
+\usepackage[a4paper,width=150mm,top=25mm,bottom=25mm,bindingoffset=6mm,headheight=15pt]{geometry}
+\usepackage{listingsutf8}
+\usepackage{color}
+	
+\usepackage{graphicx}
+\graphicspath{ {images/} }
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\fancyhead{}
+\fancyhead[RO,LE]{E-VOTING A DOPPIA BLOCKCHAIN}
+\fancyhead[LO,RE]{Matteo Sovilla}
+\fancyfoot{}
+\fancyfoot[LE,RO]{\thepage}
+\fancyfoot[LO,RE]{\leftmark}
+
+\title{
+	{E-voting a doppia Blockchain}\\
+	{\large Università degli studi di Padova}\\
+	{\includegraphics[width=5cm]{logo_unipd.eps}}
+}
+\author{Matteo Sovilla}
+\date{31 Febbraio 2018}
+
+\begin{document}
+
+\input{chapters/titlepage}
+
+\begin{abstract}
+*inserire abstract*
+
+\end{abstract}
+
+%\chapter*{}
+%\subsection*{Dediche}
+%*inserire dediche*
+
+%\chapter*{}
+%\subsection*{Ringraziamenti}
+%*Grazie a ...*
+
+\tableofcontents
+\listoffigures
+
+\chapter{Introduzione}
+\input{chapters/introduzione}
+
+\chapter{Origini di Blockchain}
+\input{chapters/origini}
+
+\chapter{Potenzialità e limiti}
+\input{chapters/analisiTecnologia}
+
+\chapter{Proposta di use case}
+\input{chapters/proposta}
+
+\chapter{Tecnologie e algoritmi utilizzati}
+\input{chapters/tecAlgUsati.tex}
+
+\chapter{Architettura}
+\input{chapters/architettura}
+
+\chapter{Analisi}
+\input{chapters/analisiProposta}
+
+\chapter{Conclusioni}
+\input{chapters/conclusioni}
+
+\appendix
+\chapter{Scenario attuale}
+\input{chapters/a_landscape}
+
+\chapter{Algoritmi promettenti}
+\input{chapters/a_algoritmi}
+
+\chapter{Implementazione}
+\input{chapters/a_codice}
+
+\bibliography{chapters/bibliografia}{}
+\bibliographystyle{plain}
+
+\end{document}

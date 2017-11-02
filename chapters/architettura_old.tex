@@ -1,0 +1,37 @@
+Il sistema si articola in due blockchain separate, la blockchain di firma e la blockchain di voto (da ora rispettivamente Signature chain o SC e Vote chain o VC). Le due chain comunicano tra di loro, per la precisione il chaincode di SC invocato dai suoi smart contract può creare coin in VC (ed è inoltre l’unico modo accettato per la creazione di coin in VC).
+Le due chain hanno scopi diversi: SC assicura che il voto avvenga in maniera controllata e abilita al voto i client. VC raccoglie i voti e li registra per effettuare poi il conteggio, ma deve garantire l’anonimato del votante.
+Si farà riferimento ai token di SC chiamandoli S-Coin, e ai token di VC chiamandoli V-Coin.
+
+\section{Preparazione}
+		Viene indetta una votazione. Si prevede che l'architettura sia già predisposta, in particolare devono essere noti ed affidabili, completi di chiavi pubbliche:
+		\begin{itemize}
+			\item L'elenco dei votanti;
+			\item L'elenco dei peer;
+			\item L'elenco degli indirizzi dei candidati in VC;
+			\item L'elenco dei programmi client verificati.
+		\end{itemize}
+
+\section{Workflow di una votazione}
+	\begin{figure}[ht]
+		\centering
+		\includegraphics[width=\textwidth]{system_diagram.png}
+		\caption{Workflow della votazione}
+		\label{fig:voting_workflow}
+	\end{figure}
+	Il diagramma in \hyperref[fig:voting_workflow]{figura \ref*{fig:voting_workflow}} illustra il workflow tipico di una votazione.
+	\subsection{Signature chain: Firma del registro votanti}
+		Il client, seguendo il modello architetturale adottato da HyperLedger, invia un messaggio propose a tutti i peer. Ciascun peer esegue quindi il codice dello smart contract (\hyperref[sec:smart_contract]{v. Sezione \ref*{sec:smart_contract}}) il quale crea un wallet per la VC con all'interno un V-Coin, lo cifra con la chiave pubblica del client e lo ritorna. In questo passaggio è di fondamentale importanza che i dati manipolati dallo smart contract non siano leggibili all'esterno se non dopo essere stati cifrati con la chiave pubblica del votante. Il messaggio di endorse ritornato al client conterrà anche la coppia di chiavi ritornata dallo smart contract. Quando il client ha raccolto un sufficiente numero di riscontri dai peer (numero stabilito a priori nelle policy del chaincode, \textless 50\% dei peer) trasmette un messaggio di endorsement all'orderer: ciò certifica l'avvenuta trasmissione dei V-coin, e permette di registrare nella SC la "firma di presenza" del votante. I restanti peer possono aver eseguito il contratto, creando V-Coin. Questi saranno però inaccessibili in quanto cifrati con la chiave del votante, e non permetteranno un doppio voto in quando saranno necessariamente in numero troppo piccolo. Nel caso limite, è possibile richiedere che ogni peer debba ricoprire il ruolo di endorsing peer eliminando ogni possibilità di creazione di V-coin non spendibili.
+
+	\subsection{Vote chain: In cabina elettorale}
+		Il client si trova in possesso di N wallet (dove N è pari al numero di endorsing peer) contenenti altrettanti V-Coin. Procede quindi a versare questi V-Coin all'indirizzo VC del candidato prescelto attraverso una transazione multisignature con tipo di signature hash \textsc{sighash\_anyonecanpay} in cui dovranno essere inclusi tutti i coin raccolti.
+
+	\subsection{Validità del voto}
+		Un voto per considerarsi valido deve rispettare le seguenti condizioni:
+		\begin{itemize}
+			\item Ciascun V-Coin deve esser stato generato (e firmato) da un peer riconosciuto;
+			\item Ciascun V-Coin deve avere una determinata "età": dopo la generazione nel wallet deve essere versato direttamente al candidato prescelto, senza passaggi di mano intermedi;
+			\item Ciascuna transazione deve essere eseguita e controfirmata da un Client verificato per assicurare che non ci siano state manomissioni e "storni" nascosti dei voti.
+		\end{itemize}
+
+\section{Smart contract} \label{sec:smart_contract}
+	Viene qui descritto il comportamento dello smart contract dell'S-Coin. Si presuppone che questo codice venga compilato ed inserito nel chaincode preliminarmente alle operazioni di voto, e che venga eseguito senza possibilità di modifica. È fondamentale che nessun tipo di log sia permesso nella sua esecuzione, e che i dati su cui lavora non trapelino all'esterno della sua esecuzione. Il codice prende in input la chiave privata del peer che lo esegue e la chiave pubblica del votante. Al momento della sua esecuzione, crea un wallet per la Vote chain e un V-Coin, versandolo nel wallet appena creato e firmandolo con la chiave privata del peer. A questo punto cifra la coppia di chiavi del wallet con la chiave pubblica del votante e ritorna le chiavi così crittate al peer che diventa l'unico in grado di disporre del V-Coin associato.

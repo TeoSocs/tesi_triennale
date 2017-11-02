@@ -14,7 +14,7 @@
 	\subsection{Consenso}
 		La tipologa di consenso adottata caratterizza fortemente l'intero sistema Blockchain, ed è strettamente legata alla tipologia di accesso scelta.
 		\begin{itemize}
-			\item \textbf{Proof of work}: è il meccanismo di consenso adottato da Bitcoin. Richiede la soluzione ad un problema matematico computazionalmente impegnativo (e.g. \emph{hashcash}) come prova delle risorse investite per far accettare la propria proposta dalla rete;
+			\item \textbf{Proof of work}: è il meccanismo di consenso adottato da Bitcoin. Richiede la soluzione ad un problema matematico computazionalmente impegnativo (e.g. \emph{Hashcash}) come prova delle risorse investite per far accettare la propria proposta dalla rete;
 			\item \textbf{Proof of stake}: è il meccanismo di consenso usato da Peercoin (e si parla di adottarlo prossimamente in Ethereum \cite{casper}). Sbilancia la probabilità di far accettare una proposta di cambiamento del registro in favore dei nodi di maggiore ``importanza" all'interno della rete. In una Blockchain che rappresenti una valuta, ad esempio, l'importanza consiste nella quantità di valuta posseduta. Nella variante dei consensi \emph{deposit-based} invece si acquista importanza versando quella che è in pratica una caparra. L'idea di base è che un attaccante dovrebbe investire talmente tante risorse nell'oggetto del suo attacco da renderlo non profittevole, in quanto le ricadute sul suo investimento sarebbero troppo pesanti. Una variante è la \emph{Delegated Proof of Stake} in cui i nodi importanti delegano la validazione di ciascuna transazione tramite votazione;
 			\item \textbf{Proof of elapsed time}: è un meccanismo di consenso introdotto da Intel \cite{poet} allo scopo di limitare l'enorme dispendio di energie dei sistemi proof-of-work. Utilizza hardware proprietario certificato per garantire l'affidabilità di un timer, ottenendo di fatto lo stesso effetto dei PoW con irrisorio consumo di energia;
 			\item \textbf{Reputation based}: è una variante dei sistemi proof-of-stake dal nome autoesplicativo. Il leader viene eletto sulla base della reputazione che si è costruito nel tempo all'interno della rete, che può basarsi su lavoro effettuato o su espressione degli altri nodi;
@@ -38,3 +38,42 @@
 
 \section{Benefici e limitazioni}
 	\emph{Spunto di riflessione: blockchain innovazione sia in ambito economico che in ambito informatico: rivoluziona nel primo caso, innova nel secondo. \url{https://www.linkedin.com/pulse/ending-bitcoin-vs-blockchain-debate-gideon-greenspan}}
+	
+	Nella gran quantità di materiale prodotto su Blockchain dalla sua presentazione ad oggi si contrappongono le posizioni di chi la considera la base della ``quarta rivoluzione industriale" \cite{4industrialrevo}, o il quinto ``disruptive computing paradigm" \cite{blockchain_swan}, a chi ne critica fortemente l'efficacia sostenendo che sia applicabile unicamente ai sistemi di cripto valute \cite{what_is_it_good_for}. \\
+	L'analisi della questione è complicata dall'intrinseca interdisciplinarità dell'argomento. Ferdinando Ametrano parla di Bitcoin \cite{Ametrano_slides} come argomento all'incrocio di quattro discipline: crittografia, reti di calcolatori e trasmissione dati, teoria dei giochi e teoria economica e monetaria. Anche affrontando solamente l'aspetto tecnologico di Blockchain intesa in senso più generale, è fondamentale rendersi conto della moltitudine di sfaccettature possibili: la maggior parte dei confronti tende a semplificare e ad ignorarne alcune in favore di altre, il che conduce a conclusioni completamente diverse. Un altro punto delicato riguarda le enormi differenze tra i diversi tipi di blockchain: sebbene l'affermarsi di questa tecnologia porti indubbiamente \emph{innovazione}, non sempre si può parlare di \emph{rivoluzione} vera e propria. Per comprenderne benefici e limitazioni in maniera equilibrata, è necessario distinguere almeno le due grandi famiglie di blockchain: \emph{permissionless} e \emph{permissioned}.
+	\subsection{Blockchain permissioned}
+		Rappresentano l'innovazione più mite. Il controllo operato sui partecipanti al sistema permette di ridurre molti aspetti negativi della tecnologia, ma ne limita certamente il potenziale. In particolare, si può pensare a questi sistemi come ad alternative ai database tradizionali, con l'aggiunta di alcune desiderabili proprietà. Tutti i punti riportati di seguito sono applicabili anche ai sistemi permissionless e pertanto si possono considerare come caratteristiche ``generali" di Blockchain.
+		\subsubsection{Vantaggi: [bozza]}
+			\begin{itemize}
+				\item \textbf{Semplificazione del paradigma attuale}: al momento è possibile ottenere gran parte dei vantaggi con altri sistemi, usare blockchain serve a semplificare e uniformare in un'unica architettura coerente il tutto;
+				\item \textbf{Trasparenza}: ogni peer può controllare ogni transazione all'occorrenza, ideale negli scenari in cui sia necessario verificare il rispetto di norme condivise;
+				\item \textbf{Condivisibilità}: la natura distribuita del sistema porta con se come diretta conseguenza la condivisione dei suoi contenuti, pur mantenendone pieno controllo sulle modifiche;
+				\item \textbf{Immutabilità}: estrema difficoltà di modificare dati scritti in precendenza (impossibilità di fatto). Nel caso particolare dei sistemi permissioned, bisogna fare attenzione a non minare la sicurezza del sistema generale dando per scontata l'affidabilità degli attori;
+				\item \textbf{Sicurezza}: tutte le transazioni in una blockchain sono crittograficamente protette e contribuiscono ad assicurare l'integrità del sistema;
+				\item \textbf{Disponibilità del servizio}: basarsi su una rete peer-to-peer permette di garantire la disponibilità del servizio anche nel caso un certo numero di peer non fosse disponibile. Le policy di consenso influenzano anche questo punto molto pesantemente: se stabilisco che una transazione debba ricevere il consenso da tutti gli altri peer, ne basta uno non funzionante e il sistema diventa non disponibile;
+			\end{itemize}
+		\subsubsection{Svantaggi: [bozza]}
+			\begin{itemize}
+				\item \textbf{Inefficienza rispetto ai database tradizionali}
+				\item \textbf{Scalabilità}
+				\item \textbf{Complessità e carenza di know-how}
+				\item \textbf{Tecnologia relativamente immatura}
+			\end{itemize}
+		
+	\subsection{Blockchain pubbliche}
+		Rappresentano l'aspetto rivoluzionario di Blockchain. L'idea originaria di Nakamoto ha permesso per la prima volta di generare un'entità digitale \emph{scarsa}, ovvero non arbitrariamente replicabile, senza la necessità della supervisione di un intermediario centrale. In questa tipologia si trovano i vantaggi più dirompenti, assieme ai limiti più vincolanti.
+		\subsubsection{Vantaggi: [bozza]}
+			\begin{itemize}
+				\item \textbf{No single point of failure}
+				\item \textbf{Non censurabilità o revocabilità del servizio}
+				\item \textbf{Velocità di validazione}: prescindere da intermediari può portare ad un'accorciamento dei tempi necessari allo svolgimento di operazioni come quelle finanziarie;
+				\item \textbf{Risparmio sulle transazioni};
+			\end{itemize}
+		\subsubsection{Svantaggi: [bozza]}
+			\begin{itemize}
+				\item \textbf{Scalabilità}: situazione estremamente più drastica di quella dei sistemi permissioned; 
+				\item \textbf{Adattabilità}
+				\item \textbf{Regolamentazione}
+				\item \textbf{Privacy}
+				\item \textbf{Impossibilità di interventi correttivi}
+			\end{itemize}

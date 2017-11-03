@@ -9,7 +9,7 @@
 #
 ################################################################################
 
-mkdir channel-artifacts
+mkdir crypto-config
 cryptogen generate --config=./crypto-config.yaml
 # crea rispettive chiavi nella cartella ./crypto-config
 

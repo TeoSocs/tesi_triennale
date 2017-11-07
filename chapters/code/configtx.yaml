@@ -1,6 +1,8 @@
-#-------------------------------------------------------------------------------
-#   Contenuto del file configtx.yaml
-#-------------------------------------------------------------------------------
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
 ---
 ################################################################################
 #
@@ -11,7 +13,8 @@
 #
 ################################################################################
 Profiles:
-    EurasiaOrdererGenesis:
+
+    OneOrgOrdererGenesis:
         Orderer:
             <<: *OrdererDefaults
             Organizations:
@@ -20,22 +23,12 @@ Profiles:
             VotingConsortium:
                 Organizations:
                     - *Stato
-                    - *Repubblicani
-                    - *Monarchici
-    SignatureChannel:
+    OneOrgChannel:
         Consortium: VotingConsortium
         Application:
             <<: *ApplicationDefaults
             Organizations:
                 - *Stato
-    VoteChannel:
-        Consortium: VotingConsortium
-        Application:
-            <<: *ApplicationDefaults
-            Organizations:
-                - *Stato
-                - *Repubblicani
-                - *Monarchici
 
 ################################################################################
 #
@@ -46,40 +39,35 @@ Profiles:
 #
 ################################################################################
 Organizations:
+
+    # SampleOrg defines an MSP using the sampleconfig.  It should never be used
+    # in production but may be used as a template for other definitions
     - &OrdererOrg
+        # DefaultOrg defines the organization which is used in the sampleconfig
+        # of the fabric.git development environment
         Name: OrdererOrg
+
         # ID to load the MSP definition as
         ID: OrdererMSP
+
         # MSPDir is the filesystem path which contains the MSP configuration
         MSPDir: crypto-config/ordererOrganizations/eurasia.com/msp
 
     - &Stato
-        Name: Stato
+        # DefaultOrg defines the organization which is used in the sampleconfig
+        # of the fabric.git development environment
+        Name: StatoMSP
+
         # ID to load the MSP definition as
         ID: StatoMSP
-        # MSPDir is the filesystem path which contains the MSP configuration
-        MSPDir: crypto-config/peerOrganizations/Stato.eurasia.com/msp
+
+        MSPDir: crypto-config/peerOrganizations/stato.eurasia.com/msp
+
         AnchorPeers:
             # AnchorPeers defines the location of peers which can be used
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
-            - Host: peer0.Stato.eurasia.com
-              Port: 7051
-
-    - &Repubblicani
-        Name: Repubblicani
-        ID: RepubblicaniMSP
-        MSPDir: crypto-config/peerOrganizations/Repubblicani.eurasia.com/msp
-        AnchorPeers:
-            - Host: peer0.Repubblicani.eurasia.com
-              Port: 7051
-
-    - &Monarchici
-        Name: Monarchici
-        ID: MonarchiciMSP
-        MSPDir: crypto-config/peerOrganizations/Monarchici.eurasia.com/msp
-        AnchorPeers:
-            - Host: peer0.Monarchici.eurasia.com
+            - Host: peer0.stato.eurasia.com
               Port: 7051
 
 ################################################################################

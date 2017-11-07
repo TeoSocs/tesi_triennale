@@ -1,10 +1,12 @@
 #
-# Contenuto del file docker-compose.yml
+# Copyright IBM Corp All Rights Reserved
+#
+# SPDX-License-Identifier: Apache-2.0
 #
 version: '2'
 
 networks:
-  voting:
+  basic:
 
 services:
   ca.eurasia.com:
@@ -14,12 +16,12 @@ services:
       - FABRIC_CA_SERVER_CA_NAME=ca.eurasia.com
     ports:
       - "7054:7054"
-    command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/Stato.eurasia.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/a22daf356b2aab5792ea53e35f66fccef1d7f1aa2b3a2b92dbfbf96a448ea26a_sk -b admin:adminpw -d'
+    command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/stato.eurasia.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/a22daf356b2aab5792ea53e35f66fccef1d7f1aa2b3a2b92dbfbf96a448ea26a_sk -b admin:adminpw -d'
     volumes:
-      - ./crypto-config/peerOrganizations/Stato.eurasia.com/ca/:/etc/hyperledger/fabric-ca-server-config
+      - ./crypto-config/peerOrganizations/stato.eurasia.com/ca/:/etc/hyperledger/fabric-ca-server-config
     container_name: ca.eurasia.com
     networks:
-      - voting
+      - basic
 
   orderer.eurasia.com:
     container_name: orderer.eurasia.com
@@ -28,135 +30,71 @@ services:
       - ORDERER_GENERAL_LOGLEVEL=debug
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
       - ORDERER_GENERAL_GENESISMETHOD=file
-      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/orderer.genesis.block
+      - ORDERER_GENERAL_GENESISFILE=/etc/hyperledger/configtx/genesis.block
       - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
-      - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
-      # enabled TLS
-      - ORDERER_GENERAL_TLS_ENABLED=true
-      - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
-      - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
-      - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
-    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+      - ORDERER_GENERAL_LOCALMSPDIR=/etc/hyperledger/msp/orderer/msp
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/orderer
     command: orderer
-    volumes:
-      - ../channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
-      - ../crypto-config/ordererOrganizations/eurasia.com/orderers/orderer.eurasia.com/msp:/var/hyperledger/orderer/msp
-      - ../crypto-config/ordererOrganizations/eurasia.com/orderers/orderer.eurasia.com/tls/:/var/hyperledger/orderer/tls
     ports:
       - 7050:7050
+    volumes:
+        - ./config/:/etc/hyperledger/configtx
+        - ./crypto-config/ordererOrganizations/eurasia.com/orderers/orderer.eurasia.com/:/etc/hyperledger/msp/orderer
+        - ./crypto-config/peerOrganizations/stato.eurasia.com/peers/peer0.stato.eurasia.com/:/etc/hyperledger/msp/peerStato
     networks:
-      - voting
+      - basic
 
-  peer0.Stato.eurasia.com:
-    container_name: peer0.Stato.eurasia.com
+  peer0.stato.eurasia.com:
+    container_name: peer0.stato.eurasia.com
     image: hyperledger/fabric-peer
     environment:
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
-      # the following setting starts chaincode containers on the same
-      # bridge network as the peers
-      # https://docs.docker.com/compose/networking/
-      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}_voting
-      #- CORE_LOGGING_LEVEL=ERROR
-      - CORE_LOGGING_LEVEL=DEBUG
-      - CORE_PEER_TLS_ENABLED=true
-      - CORE_PEER_GOSSIP_USELEADERELECTION=true
-      - CORE_PEER_GOSSIP_ORGLEADER=false
-      - CORE_PEER_PROFILE_ENABLED=true
-      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
-      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
-      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
-      - CORE_PEER_ID=peer0.Stato.eurasia.com
-      - CORE_PEER_ADDRESS=peer0.Stato.eurasia.com:7051
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.Stato.eurasia.com:7051
+      - CORE_PEER_ID=peer0.stato.eurasia.com
+      - CORE_LOGGING_PEER=debug
+      - CORE_CHAINCODE_LOGGING_LEVEL=DEBUG
       - CORE_PEER_LOCALMSPID=StatoMSP
-    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/peer/
+      - CORE_PEER_ADDRESS=peer0.stato.eurasia.com:7051
+      # # the following setting starts chaincode containers on the same
+      # # bridge network as the peers
+      # # https://docs.docker.com/compose/networking/
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}_basic
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb:5984
+      # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
+      # provide the credentials for ledger to connect to CouchDB.  The username and password must
+      # match the username and password set for the associated CouchDB.
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
     command: peer node start
     # command: peer node start --peer-chaincodedev=true
     ports:
       - 7051:7051
       - 7053:7053
     volumes:
-      - /var/run/:/host/var/run/
-      - ../crypto-config/peerOrganizations/Stato.eurasia.com/peers/peer0.Stato.eurasia.com/msp:/etc/hyperledger/fabric/msp
-      - ../crypto-config/peerOrganizations/Stato.eurasia.com/peers/peer0.Stato.eurasia.com/tls:/etc/hyperledger/fabric/tls
+        - /var/run/:/host/var/run/
+        - ./crypto-config/peerOrganizations/stato.eurasia.com/peers/peer0.stato.eurasia.com/msp:/etc/hyperledger/msp/peer
+        - ./crypto-config/peerOrganizations/stato.eurasia.com/users:/etc/hyperledger/msp/users
+        - ./config:/etc/hyperledger/configtx
     depends_on:
       - orderer.eurasia.com
+      - couchdb
     networks:
-      - voting
+      - basic
 
-  peer0.Repubblicani.eurasia.com:
-    container_name: peer0.Repubblicani.eurasia.com
-    image: hyperledger/fabric-peer
+  couchdb:
+    container_name: couchdb
+    image: hyperledger/fabric-couchdb
+    # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
+    # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
     environment:
-      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
-      # the following setting starts chaincode containers on the same
-      # bridge network as the peers
-      # https://docs.docker.com/compose/networking/
-      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}_voting
-      #- CORE_LOGGING_LEVEL=ERROR
-      - CORE_LOGGING_LEVEL=DEBUG
-      - CORE_PEER_TLS_ENABLED=true
-      - CORE_PEER_GOSSIP_USELEADERELECTION=true
-      - CORE_PEER_GOSSIP_ORGLEADER=false
-      - CORE_PEER_PROFILE_ENABLED=true
-      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
-      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
-      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
-      - CORE_PEER_ID=peer0.Repubblicani.eurasia.com
-      - CORE_PEER_ADDRESS=peer0.Repubblicani.eurasia.com:7051
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.Repubblicani.eurasia.com:7051
-      - CORE_PEER_LOCALMSPID=RepubblicaniMSP
-    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
-    command: peer node start
-    # command: peer node start --peer-chaincodedev=true
+      - COUCHDB_USER=
+      - COUCHDB_PASSWORD=
     ports:
-      - 7051:7051
-      - 7053:7053
-    volumes:
-      - /var/run/:/host/var/run/
-      - ../crypto-config/peerOrganizations/Repubblicani.eurasia.com/peers/peer0.Repubblicani.eurasia.com/msp:/etc/hyperledger/fabric/msp
-      - ../crypto-config/peerOrganizations/Repubblicani.eurasia.com/peers/peer0.Repubblicani.eurasia.com/tls:/etc/hyperledger/fabric/tls
-    depends_on:
-      - orderer.eurasia.com
+      - 5984:5984
     networks:
-      - voting
-
-  peer0.Monarchici.eurasia.com:
-    container_name: peer0.Monarchici.eurasia.com
-    image: hyperledger/fabric-peer
-    environment:
-      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
-      # the following setting starts chaincode containers on the same
-      # bridge network as the peers
-      # https://docs.docker.com/compose/networking/
-      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}_voting
-      #- CORE_LOGGING_LEVEL=ERROR
-      - CORE_LOGGING_LEVEL=DEBUG
-      - CORE_PEER_TLS_ENABLED=true
-      - CORE_PEER_GOSSIP_USELEADERELECTION=true
-      - CORE_PEER_GOSSIP_ORGLEADER=false
-      - CORE_PEER_PROFILE_ENABLED=true
-      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
-      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
-      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
-      - CORE_PEER_ID=peer0.Monarchici.eurasia.com
-      - CORE_PEER_ADDRESS=peer0.Monarchici.eurasia.com:7051
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.Monarchici.eurasia.com:7051
-      - CORE_PEER_LOCALMSPID=MonarchiciMSP
-    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
-    command: peer node start
-    # command: peer node start --peer-chaincodedev=true
-    ports:
-      - 7051:7051
-      - 7053:7053
-    volumes:
-      - /var/run/:/host/var/run/
-      - ../crypto-config/peerOrganizations/Monarchici.eurasia.com/peers/peer0.Monarchici.eurasia.com/msp:/etc/hyperledger/fabric/msp
-      - ../crypto-config/peerOrganizations/Monarchici.eurasia.com/peers/peer0.Monarchici.eurasia.com/tls:/etc/hyperledger/fabric/tls
-    depends_on:
-      - orderer.eurasia.com
-    networks:
-      - voting
+      - basic
 
   cli:
     container_name: cli
@@ -167,25 +105,20 @@ services:
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
       - CORE_LOGGING_LEVEL=DEBUG
       - CORE_PEER_ID=cli
-      - CORE_PEER_ADDRESS=peer0.Stato.eurasia.com:7051
+      - CORE_PEER_ADDRESS=peer0.stato.eurasia.com:7051
       - CORE_PEER_LOCALMSPID=StatoMSP
-      - CORE_PEER_TLS_ENABLED=true
-      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/Stato.eurasia.com/peers/peer0.Stato.eurasia.com/tls/server.crt
-      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/Stato.eurasia.com/peers/peer0.Stato.eurasia.com/tls/server.key
-      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/Stato.eurasia.com/peers/peer0.Stato.eurasia.com/tls/ca.crt
-      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/Stato.eurasia.com/users/Admin@Stato.eurasia.com/msp
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/stato.eurasia.com/users/Admin@stato.eurasia.com/msp
       - CORE_CHAINCODE_KEEPALIVE=10
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: /bin/bash
     volumes:
-      - /var/run/:/host/var/run/
-      #- ./chaincode/:/opt/gopath/src/github.com/
-      - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
-      - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
+        - /var/run/:/host/var/run/
+        - ./../chaincode/:/opt/gopath/src/github.com/
+        - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+        - ./config:/opt/gopath/src/github.com/hyperledger/fabric/peer/config/
     networks:
-      - voting
-    depends_on:
-      - orderer.eurasia.com
-      - peer0.Stato.eurasia.com
-      - peer0.Repubblicani.eurasia.com
-      - peer0.Monarchici.eurasia.com
+        - basic
+    #depends_on:
+    #  - orderer.eurasia.com
+    #  - peer0.stato.eurasia.com
+    #  - couchdb

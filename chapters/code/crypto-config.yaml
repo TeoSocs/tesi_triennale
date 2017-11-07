@@ -1,6 +1,8 @@
-#----------------------------------------------------------------------------
-#   Contenuto del file crypto-config.yaml
-# ---------------------------------------------------------------------------
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
 # ---------------------------------------------------------------------------
 # "OrdererOrgs" - Definition of organizations managing orderer nodes
 # ---------------------------------------------------------------------------
@@ -20,10 +22,10 @@ OrdererOrgs:
 # ---------------------------------------------------------------------------
 PeerOrgs:
   # ---------------------------------------------------------------------------
-  # Org1
+  # Stato
   # ---------------------------------------------------------------------------
   - Name: Stato
-    Domain: Stato.eurasia.com
+    Domain: stato.eurasia.com
     # ---------------------------------------------------------------------------
     # "Specs"
     # ---------------------------------------------------------------------------
@@ -41,8 +43,8 @@ PeerOrgs:
     #                 Org.Domain, respectively.
     # ---------------------------------------------------------------------------
     # Specs:
-    #   - Hostname: foo # implicitly "foo.org1.example.com"
-    #     CommonName: foo27.org5.example.com # overrides Hostname-based FQDN set above
+    #   - Hostname: foo # implicitly "foo.stato.eurasia.com"
+    #     CommonName: foo27.org5.eurasia.com # overrides Hostname-based FQDN set above
     #   - Hostname: bar
     #   - Hostname: baz
     # ---------------------------------------------------------------------------
@@ -68,21 +70,3 @@ PeerOrgs:
     # ---------------------------------------------------------------------------
     Users:
       Count: 1
-  # ---------------------------------------------------------------------------
-  # Second organization
-  # ---------------------------------------------------------------------------
-  - Name: Repubblicani
-    Domain: Repubblicani.eurasia.com
-    Template:
-      Count: 1
-    Users:
-      Count: 0
-  # ---------------------------------------------------------------------------
-  # Third organization
-  # ---------------------------------------------------------------------------
-  - Name: Monarchici
-    Domain: Monarchici.eurasia.com
-    Template:
-      Count: 1
-    Users:
-      Count: 0

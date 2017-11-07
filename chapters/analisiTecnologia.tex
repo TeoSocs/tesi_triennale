@@ -28,13 +28,13 @@
 			\item Tokenized blockchain;
 			\item Tokenless blockchain.
 		\end{itemize}
-		Blockchain è nata come supporto ad un sistema di scambio di token, e le applicazioni al momento più diffuse rispecchiano questo legame nei confronti di un'unità minima di informazione trasferibile. Soprattutto nel caso di blockchain permissioned, però, è possibile prescindere dal concetto di token, condividendo informazioni analogamente a quello che si può fare mediante un database tradizionale. Hyperledger permette di implementare sistemi di questo tipo, basati su un database condiviso (lo \emph{state}) in cui ogni modifica è registrata in una blockchain che funge da "log certificato".
+		Blockchain è nata come supporto ad un sistema di scambio di token, e le applicazioni al momento più diffuse rispecchiano questo legame nei confronti di un'unità minima di informazione trasferibile. Soprattutto nel caso di blockchain permissioned, però, è possibile prescindere dal concetto di token, condividendo informazioni analogamente a quello che si può fare mediante un database tradizionale. Hyperledger permette di implementare sistemi di questo tipo, basati su un database condiviso (lo \emph{state}) in cui ogni modifica è registrata in una blockchain che funge da ``log certificato".
 	
 	\subsection{Indipendenza}
 		Un ultima distinzione degna di nota è quella tra blockchain stand-alone e sidechain \cite{sidechain}. Finora, le implementazioni di sidechain riguardano esclusivamente le tokenized blockchain. Una sidechain si appoggia ad una stand-alone e permette i trasferimenti di token dall'una all'altra. Si appoggia su varianti di proof-of-stake in cui è necessario impegnare dei coin di una catena per generarne nell'altra. I trasferimenti possono essere unidirezionali o bidirezionali. L'interesse sulle sidechain è estremamente alto poiché queste abilitano la creazione di monete che si appoggiano a criptovalute diffuse come Bitcoin e ne vanno a colmare delle lacune. Interessante a proposito il punto di vista di Ferdinando Ametrano sull'uso di sidechain per ottenere la stabilità dei prezzi con una criptovaluta, riportata nel suo paper del 2014 ``\emph{Hayek Money: the Cryptocurrency Price Stability Solution}" \cite{hayek_money}.
 
 	\subsection{Teorema CAP e Blockchain}
-		Può sembrare che le varie implementazioni di Blockchain illustrate violino il \href{sec:teorema_CAP}{teorema CAP} presentato in \ref{sec:teorema_CAP}. Ciò è inesatto: in particolare Blockchain persegue disponibilità e tolleranza di partizione in maniera istantanea, mentre la coerenza è sacrificata e ottenuta solo attraverso un lasso di tempo. Si parla in questo caso di \emph{coerenza eventuale}, ed è il motivo per cui il protocollo Bitcoin è stato di fatto artificialmente rallentato mediante un problema a difficoltà dinamica, che assicurasse un impegno per la proof-of-work di circa 10 minuti. Un qualsiasi sistema Blockchain può dirsi coerente solo facendo riferimento a transazioni con una certa ``età", che siano state accettate e validate col tempo dai vari peer.
+		Può sembrare che le varie implementazioni di Blockchain illustrate violino il \hyperref[sec:teorema_CAP]{teorema CAP} presentato in \ref{sec:teorema_CAP}. Ciò è inesatto: in particolare Blockchain persegue disponibilità e tolleranza di partizione in maniera istantanea, mentre la coerenza è sacrificata e ottenuta solo attraverso un lasso di tempo. Si parla in questo caso di \emph{coerenza eventuale}, ed è il motivo per cui il protocollo Bitcoin è stato di fatto artificialmente rallentato mediante un problema a difficoltà dinamica, che assicurasse un impegno per la proof-of-work di circa 10 minuti. Un qualsiasi sistema Blockchain può dirsi coerente solo facendo riferimento a transazioni con una certa ``età", che siano state accettate e validate col tempo dai vari peer.
 
 \section{Benefici e limitazioni}
 	\emph{Spunto di riflessione: blockchain innovazione sia in ambito economico che in ambito informatico: rivoluziona nel primo caso, innova nel secondo. \\
@@ -58,21 +58,27 @@
 				\item \textbf{Inefficienza rispetto ai database tradizionali}: la natura ridondante e cifrata di Blockchain mal si concilia con le necessità di alta velocità in lettura/scrittura;
 				\item \textbf{Scalabilità}: la necessità di mantenere tracciata ogni modifica effettuata al registro distribuito provoca l'enorme aumento nel tempo della dimensione del database. Nel caso di sistemi trusted sarebbe possibile ridurre periodicamente la dimensione del database considerando affidabile la situazione in un certo momento ed eliminando la storia delle transazioni relative ai dati precedenti, ma questo procedimento andrebbe a minare la condizione di sicurezza e tracciabilità totale dei sistemi Blockchain;
 				\item \textbf{Complessità e carenza di know-how}: allestire un sistema Blockchain richiede competenze in reti e sistemi distribuiti, gestione dei database, crittografia a livelli sufficienti da poter garantirne la sicurezza di insieme. L'argomento è naturalmente complesso e più delicato rispetto ad un'architettura centralizzata, il che rende difficoltoso trovare personale sufficientemente esperto o formarlo allo scopo;
-				\item \textbf{Tecnologia relativamente immatura}: anche i framework più stabili presenti al momento della stesura di questo documento (e.g. Hyperledger) presentano variazioni più che considerevoli nell'arco di poche settimane. Uno scenario di questo tipo è estremamente ostile per un'applicazione in ambito enterprise della tecnologia, che dovrà attendere che le soluzioni attuali raggiungano una sufficiente stabilità prima di basare su di esse un'infrastruttura. Inoltre, una tecnologia tanto giovane non può essere di provata e testata affidabilità quanto i ben più rodati sistemi centralizzati: è necessario un certo periodo di prova prima che si affermi come effettiva concorrente.
+				\item \textbf{Tecnologia relativamente immatura}: anche i framework più stabili presenti al momento della stesura di questo documento (e.g. \hyperref[sec:Hyperledger]{Hyperledger} sez. \ref{sec:Hyperledger}) presentano variazioni più che considerevoli nell'arco di poche settimane. Uno scenario di questo tipo è estremamente ostile per un'applicazione in ambito enterprise della tecnologia, che dovrà attendere che le soluzioni attuali raggiungano una sufficiente stabilità prima di basare su di esse un'infrastruttura. Inoltre, una tecnologia tanto giovane non può essere di provata e testata affidabilità quanto i ben più rodati sistemi centralizzati: è necessario un certo periodo di sperimentazione prima che si affermi come effettiva concorrente.
 			\end{itemize}
 		
 	\subsection{Blockchain pubbliche}
 		Rappresentano l'aspetto rivoluzionario di Blockchain. L'idea originaria di Nakamoto ha permesso per la prima volta di generare un'entità digitale \emph{scarsa}, ovvero non arbitrariamente replicabile, senza la necessità della supervisione di un intermediario centrale. In questa tipologia si trovano i vantaggi più dirompenti, assieme ai limiti più vincolanti.
 		\subsubsection{Vantaggi: [bozza]}
 			\begin{itemize}
-				\item \textbf{No single point of failure}
-				\item \textbf{Non censurabilità o revocabilità del servizio}
-				\item \textbf{Velocità di validazione}: prescindere da intermediari può portare ad un'accorciamento dei tempi necessari allo svolgimento di operazioni come quelle finanziarie;
-				\item \textbf{Risparmio sulle transazioni};
+				\item \textbf{No single point of failure}: la replicazione in ogni nodo e il sistema di consenso totalmente distribuito permettono il corretto funzionamento della rete anche nel caso in cui uno o più nodi non fossero raggiungibili, o presentassero comportamenti anomali;
+				\item \textbf{Non censurabilità o revocabilità del servizio}: il sistema è indipendente dal controllo di un intermediario centrale, pertanto non esiste un partecipante alla rete che abbia la possibilità di negare arbitrariamente l'accesso al servizio ad un altro elemento.
+				\item \textbf{Velocità di validazione}: prescindere da intermediari può portare ad un'accorciamento dei tempi necessari allo svolgimento di operazioni come quelle finanziarie. Paragonata ad altri sistemi informatici un'infrastruttura di questo tipo è sicuramente più lenta, ma se si considerano i tempi attualmente necessari a seguire le procedure legali in caso sia necessario validare e approvare documenti si nota come Blockchain permetta di effettuare operazioni verificabili in maniera estremamente veloce.
+				\item \textbf{Risparmio sulle transazioni} analogamente a quanto detto per la velocità di validazione, eliminare la necessità di controllo da parte di terzi permette una riduzione considerevole dei costi per ogni procedura;
 			\end{itemize}
 		\subsubsection{Svantaggi: [bozza]}
 			\begin{itemize}
-				\item \textbf{Scalabilità}: situazione estremamente più drastica di quella dei sistemi permissioned; 
+				\item \textbf{Scalabilità}: in questo caso la situazione è estremamente più drastica rispetto a quella dei sistemi permissioned. Non è infatti possibile stabilire un momento in cui si considera il sistema affidabile, e non esiste nemmeno un ente o un supervisore che possa essere investito di tale incarico. L'immagine riporta la situazione della blockchain di Bitcoin aggiornata al 05/11/2017, e lascia intuire come questo aspetto rischi facilmente di andare fuori controllo e risultare estremamente limitante per il sistema.
+				\begin{figure}[ht]
+					\centering
+					\includegraphics[width=0.8\textwidth]{blocks-size.png}
+					\caption{Dimensione della blockchain di Bitcoin}
+					\label{fig:blocks.size}
+				\end{figure}
 				\item \textbf{Adattabilità}
 				\item \textbf{Regolamentazione}
 				\item \textbf{Privacy}

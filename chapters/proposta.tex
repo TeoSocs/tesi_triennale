@@ -11,7 +11,7 @@ Alla luce di quanto scritto finora, una possibile applicazione della tecnologia 
 				\item \textbf{Membership services}: sono l'astrazione di tutti i meccanismi crittografici e i protocolli che lavorano alla validazione dei certificati e al riconoscimento degli utenti; 
 				\item \textbf{Organizzazioni}: rappresentano ciascuna entità distinta che possiede un certificato univoco per la rete. I nodi come i peer o i client devono essere legati ad un'organizzazione per poter essere riconosciuti e autenticati;
 				\item \textbf{Channel}: è l'overlay della blockchain privata di Hyperledger. Ciascun canale ha un registro specifico, condiviso tra i peer registrati al canale, e ciascun ente coinvolto nella transazione deve essere autenticato ad uno specifico channel affinché questa abbia luogo;
-				\item \textbf{State}: abbreviazione per "State Database", è il database in cui è salvato lo stato attuale del sistema per effettuare query sul registro in maniera efficiente. È modellato come un database chiave/valore con versionamento. Può essere completamente ricostruito dalla storia delle transazioni salvata in blockchain, il che ne garantisce il controllo sull'affidabilità;
+				\item \textbf{State}: abbreviazione per ``State Database", è il database in cui è salvato lo stato attuale del sistema per effettuare query sul registro in maniera efficiente. È modellato come un database chiave/valore con versionamento. Può essere completamente ricostruito dalla storia delle transazioni salvata in blockchain, il che ne garantisce il controllo sull'affidabilità;
 				\item \textbf{Chaincode}: è il nome dato ai programmi salvati nella blockchain di Hyperledger. Sono invocati dalle transazioni, e possono inizializzare componenti nello state o modificarli. La loro esecuzione avviene in un container Docker isolato per garantirne la riservatezza. Incapsula la componente di business logic del sistema, ha corrispondenza diretta con quelli che in altri sistemi basati su Blockchain vengono chiamati \emph{smart contract}.
 				\item \textbf{Transazioni}: sono la rappresentazione di ogni azione effettuata sul registro. Possono essere \emph{deploy transactions} che creano nuovo chaincode e lo ``installano" in un canale oppure \emph{invoke transactions} che invocano una funzione presente in un chaincode installato per effettuare letture o modifiche al ledger. Ciascuna transazione deve essere approvata e gestita dall'orderer, e viene registrata nella blockchain per la futura tracciabilità.
 			\end{itemize}
@@ -54,11 +54,31 @@ Alla luce di quanto scritto finora, una possibile applicazione della tecnologia 
 		Il diagramma in \hyperref[fig:voting_workflow]{figura \ref*{fig:voting_workflow}} illustra il workflow tipico di una votazione.
 		\subsubsection{Signature chain: Firma del registro votanti}
 			Il client autentica l'utente attraverso un \hyperref[subsec:personalita_voto]{sign-on affidabile}. I controlli di accesso possono essere rinforzati o meno da \hyperref[subsec:liberta_voto]{altri passaggi} affidati a sistemi di intelligenza artificiale o al controllo di un operatore. A utente autenticato, il client invoca il chaincode di query su SC ed ottiene l'elenco delle chiavi pubbliche del suo raggruppamento. Questa richiesta viene registrata in blockchain, per assicurarsi che lo stesso utente non possa ripetere la procedura di voto due volte.
+			\begin{figure}[ht]
+				\centering
+				\subfigure[Firma tradizionale]
+					{\includegraphics[width=0.45\textwidth]{firma_voto.png}}
+				\hspace{5mm}
+				\subfigure[Firma di SC]
+					{\includegraphics[width=0.45\textwidth]{firma_e-voting.png}}
+				\caption{Firma del registro votanti}
+				\label{fig:firma_voto}
+			\end{figure}
 			
 		\subsubsection{Vote chain: In cabina elettorale}
 			Il client si trova ora in possesso delle chiavi pubbliche della sua sezione. In locale permette al votante di esprimere la propria preferenza di voto e richiede la transazione corrispondente nella VC firmandola con la ring signature del proprio raggruppamento.
 			La votazione è ora conclusa.
-		
+			\begin{figure}[ht]
+				\centering
+				\subfigure[Voto tradizionale]
+					{\includegraphics[width=0.45\textwidth]{voto_tradizionale.png}}
+				\hspace{5mm}
+				\subfigure[Voto in VC]
+					{\includegraphics[width=0.45\textwidth]{voto_elettronico.png}}
+				\caption{Votazione}
+				\label{fig:votazione}
+			\end{figure}
+			
 		\subsubsection{Scrutinio e verifica}
 			Le operazioni di scrutinio e verifica possono ora essere completamente automatizzate, facendo riferimento ad una base di dati sicura e virtualmente inalterabile come la blockchain.
 
@@ -66,7 +86,7 @@ Alla luce di quanto scritto finora, una possibile applicazione della tecnologia 
 	In questa sezione si analizzano le scelte architetturali fatte argomentandole, concludendo con delle possibilità di miglioramento che si potranno presentare con l'avanzamento dello scenario tecnologico attuale.
 	
 	\subsection{Qualità del voto}
-		Il voto è definito dall'art. 48 \cite{art48} della Costituzione Italiana come "personale ed eguale, libero e segreto".
+		Il voto è definito dall'art. 48 \cite{art48} della Costituzione Italiana come ``personale ed eguale, libero e segreto".
 		\subsubsection{Personalità}\label{subsec:personalita_voto}
 			La personalità del voto, intesa come la necessità di esercitarlo di persona e non tramite terzi, è delegata in questa proposta al servizio di sign-on. Al momento attuale, è possibile fare affidamento su diversi sistemi di autenticazione: per il corretto funzionamento del sistema è previsto che ogni utente abbia una coppia di chiavi pubblica e privata distribuita precedentemente, sotto verifica di un operatore. Ad esempio, è possibile distribuire queste chiavi contestualmente alla consegna della tessera elettorale. La natura certificata di queste chiavi le rende ideali come metodo di autenticazione ma è possibile aggiungere ulteriori controlli come una verifica tramite dati biometrici.
 		

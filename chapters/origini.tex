@@ -4,7 +4,7 @@
 	\begin{figure}[ht]
 		\centering
 		\includegraphics[width=\textwidth]{double_spending_problem.jpg}
-		\caption{Double-spending problem, da "Understanding Bitcoin" \cite{understanding_bitcoin} figura 2.1}
+		\caption{Double-spending problem, da ``Understanding Bitcoin" \cite{understanding_bitcoin} figura 2.1}
 		\label{fig:double-spending_img}
 	\end{figure}
 
@@ -12,7 +12,7 @@
 		\begin{figure}[ht]
 			\centering
 			\includegraphics[width=\textwidth]{central_counterparty.png}
-			\caption{Central counterparty holding a centralized database, da "Understanding Bitcoin" \cite{understanding_bitcoin} figura 2.2}
+			\caption{Central counterparty holding a centralized database, da ``Understanding Bitcoin" \cite{understanding_bitcoin} figura 2.2}
 			\label{fig:central_counterparty_img}
 		\end{figure}
 		La soluzione contro il \emph{double-spending} finora adottata è stata l'affidamento delle transazioni economiche digitali ad un ente esterno fidato (e.g. i sistemi e-banking) che conoscesse le identità degli utenti e potesse verificarne l'effettiva disponibilità economica. È il database centrale che traccia la storia delle transazioni effettuate da ogni utente e prima di autorizzare la successiva verifica che non ci siano incongruenze. \\
@@ -29,6 +29,12 @@
 				\item \textbf{Disponibilità (Availability)} indica che il sistema è attivo, accessibile e pronto a ricevere input e a fornire output corretti nei tempi previsti;
 				\item \textbf{Tolleranza di partizione (Partition tolerance)} assicura che anche nel caso un gruppo di nodi crollasse per qualche motivo, il sistema continuerebbe ad operare correttamente.
 			\end{itemize}
+			\begin{figure}[ht]
+				\centering
+				\includegraphics[width=0.7\textwidth]{cap.png}
+				\caption{Teorema CAP \cite{cap_diagram}}
+				\label{fig:cap}
+			\end{figure}
 
 		\subsubsection{Problema dei Generali Bizantini}
 			Si tratta di un quesito posto da Leslie Lamport (con Marshall Pease e Robert Shostak) nel 1982 \cite{BGP}, dove un gruppo di generali a capo di diverse sezioni dell'esercito bizantino sta pianificando di attaccare una città. L'unico modo a loro disposizione per comunicare è mediante messaggeri, e hanno bisogno di concordare il momento dell'attacco per vincere. Potrebbero esserci traditori tra di loro, i quali comunicherebbero messaggi discordanti per minare la riuscita dell'operazione: è quindi necessario stabilire un sistema affidabile per raggiungere il consenso sulle tempistiche di attacco. È facile l'analogia con un sistema informatico distribuito in cui i generali siano rappresentati dai nodi e i messaggeri come un'infrastruttura di rete. Una soluzione praticabile del problema dei generali bizantini in un sistema sincrono è stata proposta da Miguel Castro e Barbara Liskov in \emph{Practical Byzantine Fault Tolerance} \cite{PBFT}, mentre Bitcoin è la prima implementazione pratica con la sua soluzione basata sulla Proof-of-Work.

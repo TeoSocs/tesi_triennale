@@ -18,7 +18,13 @@ Alla luce di quanto scritto finora, una possibile applicazione della tecnologia 
 		
 	\subsection{Ring signature}
 		Una ring signature, o firma ad anello, è un tipo di firma digitale legata ad un gruppo di utenti ciascuno in possesso di una chiave. Questo tipo di firma permette di verificare che l'autore appartiene a quel dato gruppo di utenti rendendo però computazionalmente infattibile determinare quale specifico utente esso sia. Riporto di seguito (tradotta) una possibile definizione formale \cite{ring_signature}: \\
-		Si supponga che un gruppo di entità possieda le coppie di chiavi pubbliche/private 
+		Si supponga che un gruppo di entità possieda le coppie di chiavi pubbliche/private $(P_1, S_1), (P_2, S_2), ..., (P_n, S_n)$. Il soggetto \emph{i} può apporre una ring signature $\sigma$ sul messaggio \emph{m} avendo in input $(m, S_i, P_1, ..., P_n)$. Chiunque può verificare la validità della firma dati $\sigma, m$ e le chiavi pubbliche coinvolte $P_1, ..., P_n$.
+		\begin{figure}[ht]
+			\centering
+			\includegraphics[width=0.6\textwidth]{ring_signature.png}
+			\caption{Ring signature}
+			\label{fig:ring_signature}
+		\end{figure}
 
 
 \section{Architettura}

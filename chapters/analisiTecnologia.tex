@@ -51,14 +51,14 @@
 				\item \textbf{Condivisibilità}: la natura distribuita del sistema porta con se come diretta conseguenza la condivisione dei suoi contenuti, pur mantenendone pieno controllo sulle modifiche;
 				\item \textbf{Immutabilità}: estrema difficoltà di modificare dati scritti in precendenza (impossibilità di fatto). Nel caso particolare dei sistemi permissioned, bisogna fare attenzione a non minare la sicurezza del sistema generale dando per scontata l'affidabilità degli attori;
 				\item \textbf{Sicurezza}: tutte le transazioni in una blockchain sono crittograficamente protette e contribuiscono ad assicurare l'integrità del sistema;
-				\item \textbf{Disponibilità del servizio}: basarsi su una rete peer-to-peer permette di garantire la disponibilità del servizio anche nel caso un certo numero di peer non fosse disponibile. Le policy di consenso influenzano anche questo punto molto pesantemente: se stabilisco che una transazione debba ricevere il consenso da tutti gli altri peer, ne basta uno non funzionante e il sistema diventa non disponibile;
+				\item \textbf{Disponibilità del servizio}: basarsi su una rete peer-to-peer permette di garantire la disponibilità del servizio anche nel caso un certo numero di peer non fosse disponibile. Le policy di consenso influenzano anche questo punto molto pesantemente: se stabilisco che una transazione debba ricevere il consenso da tutti gli altri peer, ne basta uno non funzionante e il sistema risulta non disponibile;
 			\end{itemize}
 		\subsubsection{Svantaggi: [bozza]}
 			\begin{itemize}
-				\item \textbf{Inefficienza rispetto ai database tradizionali}
-				\item \textbf{Scalabilità}
-				\item \textbf{Complessità e carenza di know-how}
-				\item \textbf{Tecnologia relativamente immatura}
+				\item \textbf{Inefficienza rispetto ai database tradizionali}: la natura ridondante e cifrata di Blockchain mal si concilia con le necessità di alta velocità in lettura/scrittura;
+				\item \textbf{Scalabilità}: la necessità di mantenere tracciata ogni modifica effettuata al registro distribuito provoca l'enorme aumento nel tempo della dimensione del database. Nel caso di sistemi trusted sarebbe possibile ridurre periodicamente la dimensione del database considerando affidabile la situazione in un certo momento ed eliminando la storia delle transazioni relative ai dati precedenti, ma questo procedimento andrebbe a minare la condizione di sicurezza e tracciabilità totale dei sistemi Blockchain;
+				\item \textbf{Complessità e carenza di know-how}: allestire un sistema Blockchain richiede competenze in reti e sistemi distribuiti, gestione dei database, crittografia a livelli sufficienti da poter garantirne la sicurezza di insieme. L'argomento è naturalmente complesso e più delicato rispetto ad un'architettura centralizzata, il che rende difficoltoso trovare personale sufficientemente esperto o formarlo allo scopo;
+				\item \textbf{Tecnologia relativamente immatura}: anche i framework più stabili presenti al momento della stesura di questo documento (e.g. Hyperledger) presentano variazioni più che considerevoli nell'arco di poche settimane. Uno scenario di questo tipo è estremamente ostile per un'applicazione in ambito enterprise della tecnologia, che dovrà attendere che le soluzioni attuali raggiungano una sufficiente stabilità prima di basare su di esse un'infrastruttura. Inoltre, una tecnologia tanto giovane non può essere di provata e testata affidabilità quanto i ben più rodati sistemi centralizzati: è necessario un certo periodo di prova prima che si affermi come effettiva concorrente.
 			\end{itemize}
 		
 	\subsection{Blockchain pubbliche}

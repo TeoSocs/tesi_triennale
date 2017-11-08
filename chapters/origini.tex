@@ -47,4 +47,50 @@
 			\end{itemize}
 
 \section{Bitcoin}
-	Il 31 ottobre del 2008, uno sconosciuto (o un gruppo) sotto lo pseudonimo di Satoshi Nakamoto annuncia la pubblicazione di un suo paper \cite{nakamoto_bitcoin} in cui presenta un nuovo sistema di moneta elettronica completamente peer-to-peer
+	Il 31 ottobre del 2008, uno sconosciuto (o un gruppo) sotto lo pseudonimo di Satoshi Nakamoto annuncia la pubblicazione di un suo paper \cite{nakamoto_bitcoin} in cui presenta un nuovo sistema di moneta elettronica: Bitcoin. Non si tratta del primo esperimento di moneta elettronica, ma la notizia fa scalpore poiché Bitcoin viene presentato come completamente peer-to-peer, senza necessità di mediazione da parte di un intermediario fidato. \\
+	Il sistema Bitcoin consiste, in estrema sintesi, in un registro distribuito di transazioni. Chiunque voglia usufruire del sistema per ricevere pagamenti o effettuarli deve possedere una coppia di chiavi pubblica e privata. La chiave privata serve a firmare le nuove transazioni, mentre la chiave pubblica viene diffusa e utilizzata per verificare la firma apposta sul pagamento. L'utente è identificato all'interno del registro tramite un hash della sua chiave pubblica, ovvero il suo \emph{indirizzo Bitcoin}. \\
+	Nella proposta di transazione, l'utente deve dichiarare:
+	\begin{itemize}
+		\item l'indirizzo del destinatario;
+		\item l'importo da trasferire;
+		\item il riferimento alla transazione tramite cui ha ottenuto il possesso dei bitcoin che sta spendendo.
+	\end{itemize}
+	\begin{figure}[ht]
+		\centering
+		\includegraphics[width=\textwidth]{bitcoin_transaction.png}
+		\caption{Struttura di una transazione}
+		\label{fig:bitcoin_transaction}
+	\end{figure}
+	Deve inoltre fornire prova della sua identità firmando la proposta tramite la sua chiave privata.
+	\subsection{Evitare il double-spending: la nascita di Blockchain}
+		La crittografia asimmetrica e in particolare i concetti di firma digitale su sui si fonda il sistema descritto fino a questo punto sono ben noti da anni e largamente utilizzati molto tempo prima della nascita di Bitcoin. Non sono sufficienti però ad evitare il problema del double spending: per fare ciò è necessario assicurare l'immutabilità del registro e prevenire la creazione di transazioni non valide sfruttando la mancanza di ``accordi" tra i nodi della rete. La tecnologia adottata da Bitcoin per questo scopo è nota come \emph{Blockchain}. \\
+		Il registro distribuito di Bitcoin prende la forma di una serie di ``blocchi" di transazioni legati fra di loro tramite hash crittografico: ogni blocco contiene, oltre alle transazioni che lo compongono, anche l'hash del blocco precedente permettendo quindi di individuare un ordine totale nell'insieme dei blocchi che può prendere quindi il nome di \emph{catena}. 
+		\begin{figure}[ht]
+			\centering
+			\includegraphics[width=\textwidth]{bitcoin-block-chain.png}
+			\caption{Struttura a blocchi del registro}
+			\label{fig:bitcoin_chain}
+		\end{figure}
+		\subsubsection{Consenso tramite proof-of-work}
+			Rendere ordinato il registro permette di determinare in maniera univoca quale transazione sia avvenuta per prima, e quindi nel caso di doppia spesa di una particolare somma rifiutare le transazioni successive alla prima. Ciò non impedisce però ad un utente malevolo di creare una nuova catena che riassegni arbitrariamente certe somme (ad esempio modificando il destinatario di una transazione da lui effettuata) e presentarla come corretta al resto della rete. Bitcoin affronta questa eventualità rallentando la produzione dei blocchi attraverso la richiesta di una \emph{proof-of-work}. \\
+			Ciascun nodo che volesse validare un nuovo blocco e proporlo al resto della rete (chiamato \emph{miner}) deve prima risolvere un problema computazionalmente molto oneroso (risolvibile solamente a forza bruta) basato su di un hash del blocco in ``lavorazione" \cite{hashcash}. In particolare, nel blocco è inserito un numero detto \emph{nonce} che deve essere determinato dal nodo proponente affinché l'hash del blocco stesso cominci con un determinato numero di 0 iniziali. Il numero di 0 richiesti influenza la difficoltà del problema: viene determinato algoritmicamente sul tempo medio di creazione degli ultimi blocchi e ciò fa in modo che il tempo necessario si assesti non sotto i 10 minuti. \\
+			\begin{figure}[ht]
+				\centering
+				\includegraphics[width=\textwidth]{difficulty.png}
+				\caption{Difficoltà di creazione di un nuovo blocco}
+				\label{fig:bitcoin_difficulty}
+			\end{figure}
+			Questo \emph{sforzo} necessario da parte dei miner fa sì che un nodo malevolo che volesse creare nuova catena alterata dovrebbe ricalcolare la soluzione a tutti i problemi matematici relativi a tutti i blocchi successivi a quello alterato. Dal momento che la rete accetta come corretta solamente la catena più lunga, tale attaccante dovrebbe validare i blocchi più velocemente del resto della rete, per poter ad un certo punto superare la lunghezza della blockchain ``ufficiale" e veder riuscire il suo attacco.
+		
+		\subsubsection{Il guadagno dei miner}
+			L'introduzione di un simile onere pesa tanto su di un ipotetico attaccante quanto sul resto della rete: per fornire un adeguato incentivo per il mantenimento della rete, la prima transazione di ogni blocco è \emph{autorizzata a creare nuovi bitcoin} in favore del miner che l'ha validato. Questo è l'unico modo in cui nuovi bitcoin possono essere creati, e l'ammontare di questa ricompensa è anch'esso algoritmicamente determinato. La presenza di questa ricompensa fa in modo che sia più profittevole, da parte di un nodo con sufficiente potenza di calcolo da impensierire la stabilità della rete, investire queste risorse nel mantenimento della rete stessa svolgendo il ruolo di miner invece che in attacchi come quello descritto sopra.
+			\paragraph{Offerta anelastica e scenario futuro} ~ \\
+				È necessario un piccolo appunto sulla possibile evoluzione di questo equilibrio: la ricompensa per la validazione di un blocco è infatti destinata a ridursi con il tempo. L'algoritmo prevede infatti che questa venga dimezzata ogni circa 4 anni fino a raggiungere una quantità di bitcoin immessi di circa 21 milioni.
+				\begin{figure}[ht]
+					\centering
+					\includegraphics[width=\textwidth]{bitcoin_supply.png}
+					\caption{Emissione fissata di bitcoin}
+					\label{fig:bitcoin_supply}
+				\end{figure}
+				L'ultima frazione di bitcoin generata sarà creata nel 2141: a quel punto verrà meno, apparentemente, l'incentivo al mining ``onesto". Nonostante questo possa sembrare uno scenario remoto per via della data ancora sufficientemente distante nel tempo, il problema è più attuale di quanto sembri per via degli enormi costi delle attrezzature per il mining. La competizione in quest'ambito si è accesa e ha dato il via ad una corsa continua per accumulare la maggior potenza di calcolo possibile, alzando moltissimo la quantità di risorse necessarie in termini di hardware ed energia. Il momento in cui questi costi supereranno il valore della ricompensa è quindi molto più vicino della data di emissione dell'ultimo bitcoin. \\
+				A mantenere l'equilibrio c'è la possibilità da parte dei nodi di includere una tassa volontaria a destinatario libero all'interno delle proprie transazioni. Il miner che include la transazione all'interno del blocco in validazione imposta se stesso come destinatario di questa offerta che quindi va a partecipare all'incentivo economico necessario per il mantenimento della rete.

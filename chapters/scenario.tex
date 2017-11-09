@@ -1,32 +1,36 @@
 \section*{DISCLAIMER} \emph{Questa sezione è un cantiere aperto. NON è definitiva in nessuna sua parte, NON nei contenuti, NON nella struttura, NON nel tono generale del discorso. Si tratta di una serie di appunti che sto prendendo e che saranno la base su cui scriverò poi la versione definitiva, li inserisco per mantenerne traccia e per avere ben chiara la direzione che sta intraprendendo il discorso.}
 
-
-        
-
 \section{Innovazioni vicine}
     Esistono già:
-    \begin{itemize}
-        \item \textbf{Ripple}: è il più famoso sistema di scambio di valuta basato su blockchain permissioned, adottato tra gli altri da MUFG, RBC, Santander, Unicredit, BBVA \url(https://ripple.com/);
-        \item \textbf{Litecoin}: è una criptomoneta molto simile a Bitcoin da cui differisce per alcune caratteristiche chiave, su tutte il tempo necessario all'elaborazione di un blocco (2 minuti e mezzo contro i 10 minuti di Bitcoin) e il sistema di consenso. Litecoin infatti usa \emph{scrypt} per la sua proof-of-work, una funzione gravosa sulla memoria piuttosto che sul processore che punta a evita il predominio delle server farm con hardware dedicato che controllano le operazioni di mining di Bitcoin;
-        \item \textbf{Peercoin}: è una criptomoneta alternativa che adotta un algoritmo di consenso ibrido tra proof-of-work e proof-of-stake, allo scopo di portare un'alternativa solida all'enorme consumo energetico di Bitcoin;
-        \item \textbf{Monero}: fork di Bitcoin che utilizza CryptoNote, un protocollo basato sulla Ring Signature orientato a rafforzare l'anonimato nella blockchain;
-        \item \textbf{ZCash e ZCoin}: come Monero si pongono l'obiettivo di garantire la privacy in un sistema Blockchain, usano algoritmi di tipo zero-knowledge sebbene con piccole differenze tra di loro \cite{zcoin_vs_zcash};
-        \item crowdfunding su blockchain
-        \item \textbf{OpenTimestamps} servizio di timestamping che si appoggia alla blockchain di Bitcoin \url{https://opentimestamps.org/};
-        \item \textbf{CoinJoin}: metodo di anonimizzazione per le transazioni Bitcoin;
-        \item \textbf{Namecoin}: servizio basato su blockchain che si propone di potenziare decentralizzazione, sicurezza, resistenza alla censura, privacy e velocità di componenti alcune dell'infrastruttura di Internet come i DNS;
-        \item \textbf{Blockchain specifiche}: Chain ad-hoc con utilizzo ben preciso. \\
-            Esempi: \emph{Everledger} per diamanti e beni di lusso, \emph{Filament} per reti wireless sicure in IoT;
-        \item \textbf{Blockchain a livello enterprise}: Devono rispettare requisiti per testing, documentazione, integrazione, sicurezza. \\
-            Esempi: \emph{Bloq, Tylmex, Chain, Hyperledger}
-        \item \textbf{Hawk}: The Blockchain Model of Cryptography and Privacy-Preserving Smart Contracts \url{http://ieeexplore.ieee.org/document/7546538/?reload=true}
-    \end{itemize}
+    \subsection{Criptomonete}
+        \begin{itemize}
+            \item \textbf{Ripple}: è il più famoso sistema di scambio di valuta basato su blockchain permissioned, adottato tra gli altri da MUFG, RBC, Santander, Unicredit, BBVA \url(https://ripple.com/);
+            \item \textbf{Litecoin}: è una criptomoneta molto simile a Bitcoin da cui differisce per alcune caratteristiche chiave, su tutte il tempo necessario all'elaborazione di un blocco (2 minuti e mezzo contro i 10 minuti di Bitcoin) e il sistema di consenso. Litecoin infatti usa \emph{scrypt} per la sua proof-of-work, una funzione gravosa sulla memoria piuttosto che sul processore che punta a evita il predominio delle server farm con hardware dedicato che controllano le operazioni di mining di Bitcoin;
+            \item \textbf{Peercoin}: è una criptomoneta alternativa che adotta un algoritmo di consenso ibrido tra proof-of-work e proof-of-stake, allo scopo di portare un'alternativa solida all'enorme consumo energetico di Bitcoin;
+            \item \textbf{Monero}: fork di Bitcoin che utilizza CryptoNote, un protocollo basato sulla Ring Signature orientato a rafforzare l'anonimato nella blockchain;
+            \item \textbf{ZCash e ZCoin}: come Monero si pongono l'obiettivo di garantire la privacy in un sistema Blockchain, usano algoritmi di tipo zero-knowledge sebbene con piccole differenze tra di loro \cite{zcoin_vs_zcash};
+            \item \textbf{CoinJoin}: metodo di anonimizzazione per le transazioni Bitcoin;
+            \item crowdfunding su blockchain
+        \end{itemize}
+     
+    \subsection{Non-Criptomonete}
+        \begin{itemize}
+            \item \textbf{Ethereum}
+            \item \textbf{OpenTimestamps} servizio di timestamping che si appoggia alla blockchain di Bitcoin \url{https://opentimestamps.org/};
+            \item \textbf{Namecoin}: servizio basato su blockchain che si propone di potenziare decentralizzazione, sicurezza, resistenza alla censura, privacy e velocità di componenti alcune dell'infrastruttura di Internet come i DNS;
+            \item \textbf{Blockchain specifiche}: Chain ad-hoc con utilizzo ben preciso. \\
+                Esempi: \emph{Everledger} per diamanti e beni di lusso, \emph{Filament} per reti wireless sicure in IoT;
+            \item \textbf{Blockchain a livello enterprise}: Devono rispettare requisiti per testing, documentazione, integrazione, sicurezza. \\
+                Esempi: \emph{Bloq, Chain, Hyperledger}
+            \item \textbf{Hawk}: The Blockchain Model of Cryptography and Privacy-Preserving Smart Contracts \url{http://ieeexplore.ieee.org/document/7546538/?reload=true}
+        \end{itemize}
 
 \section{Sfide e ambiti di ricerca}
-    \url{https://appliedblockchain.com/outstanding-challenges-in-blockchain-2017/}
     \subsection{Efficienza e scalabilità}
-        Problemi crittografici nuovi
-        Algoritmi di consenso
+        \begin{itemize}
+            \item Problemi crittografici nuovi
+            \item Algoritmi di consenso
+        \end{itemize}
     \subsection{Standardizzazione e interoperabilità}
     \subsection{Privacy}
         \subsubsection{Algoritmi zero-knowledge}
@@ -42,13 +46,13 @@
             vedi pag 244 di Understanding Bitcoin
 
 \section{Cosa si potrà fare}
-\begin{itemize}
-    \item Reti IoT sicure basate su Blockchain condivise
-    \item Condivisione dati sensibili (cartelle cliniche?)
-    \item Digital Identity
-    \item Immigrazione e controlli doganali
-    \item Cronotachigrafi
-    \item Gestione DRM (digital rights management)
-    \item Digital assets e smart properties
-    \item Moneta basata su Bitcoin per transazioni efficaci tra privati
+    \begin{itemize}
+        \item Reti IoT sicure basate su Blockchain condivise
+        \item Condivisione dati sensibili (cartelle cliniche?)
+        \item Digital Identity
+        \item Immigrazione e controlli doganali
+        \item Cronotachigrafi
+        \item Gestione DRM (digital rights management)
+        \item Digital assets e smart properties
+        \item Moneta basata su Bitcoin per transazioni efficaci tra privati
 \end{itemize}

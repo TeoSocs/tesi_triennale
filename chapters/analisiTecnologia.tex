@@ -36,7 +36,7 @@
 	\subsection{Teorema CAP e Blockchain}
 		Può sembrare che le varie implementazioni di Blockchain illustrate violino il \hyperref[sec:teorema_CAP]{teorema CAP} presentato in \ref{sec:teorema_CAP}. Ciò è inesatto: in particolare Blockchain persegue disponibilità e tolleranza di partizione in maniera istantanea, mentre la coerenza è sacrificata e ottenuta solo attraverso un lasso di tempo. Si parla in questo caso di \emph{coerenza eventuale}, ed è il motivo per cui il protocollo Bitcoin è stato di fatto artificialmente rallentato mediante un problema a difficoltà dinamica, che assicurasse un impegno per la proof-of-work di circa 10 minuti. Un qualsiasi sistema Blockchain può dirsi coerente solo facendo riferimento a transazioni con una certa ``età", che siano state accettate e validate col tempo dai vari peer.
 
-\section{Benefici e limitazioni}
+\section{Benefici e limitazioni \emph{[development]}}
 	\emph{Spunto di riflessione: blockchain innovazione sia in ambito economico che in ambito informatico: rivoluziona nel primo caso, innova nel secondo. \\
 	\href{https://www.linkedin.com/pulse/ending-bitcoin-vs-blockchain-debate-gideon-greenspan}{LINK: Ending the bitcoin vs blockchain debate}}
 	
@@ -44,7 +44,7 @@
 	L'analisi della questione è complicata dall'intrinseca interdisciplinarità dell'argomento. Ferdinando Ametrano parla di Bitcoin \cite{Ametrano_slides} come argomento all'incrocio di quattro discipline: crittografia, reti di calcolatori e trasmissione dati, teoria dei giochi e teoria economica e monetaria. Anche affrontando solamente l'aspetto tecnologico di Blockchain intesa in senso più generale, è fondamentale rendersi conto della moltitudine di sfaccettature possibili: la maggior parte dei confronti tende a semplificare e ad ignorarne alcune in favore di altre, il che conduce a conclusioni completamente diverse. Un altro punto delicato riguarda le enormi differenze tra i diversi tipi di blockchain: sebbene l'affermarsi di questa tecnologia porti indubbiamente \emph{innovazione}, non sempre si può parlare di \emph{rivoluzione} vera e propria. Per comprenderne benefici e limitazioni in maniera equilibrata, è necessario distinguere almeno le due grandi famiglie di blockchain: \emph{permissionless} e \emph{permissioned}.
 	\subsection{Blockchain permissioned}
 		Rappresentano l'innovazione più mite. Il controllo operato sui partecipanti al sistema permette di ridurre molti aspetti negativi della tecnologia, ma ne limita certamente il potenziale. In particolare, si può pensare a questi sistemi come ad alternative ai database tradizionali, con l'aggiunta di alcune desiderabili proprietà. Tutti i punti riportati di seguito sono applicabili anche ai sistemi permissionless e pertanto si possono considerare come caratteristiche ``generali" di Blockchain.
-		\subsubsection{Vantaggi: [bozza]}
+		\subsubsection{Vantaggi:}
 			\begin{itemize}
 				\item \textbf{Semplificazione del paradigma attuale}: al momento è possibile ottenere gran parte dei vantaggi con altri sistemi, usare blockchain serve a semplificare e uniformare in un'unica architettura coerente il tutto;
 				\item \textbf{Trasparenza}: ogni peer può controllare ogni transazione all'occorrenza, ideale negli scenari in cui sia necessario verificare il rispetto di norme condivise;
@@ -53,7 +53,7 @@
 				\item \textbf{Sicurezza}: tutte le transazioni in una blockchain sono crittograficamente protette e contribuiscono ad assicurare l'integrità del sistema;
 				\item \textbf{Disponibilità del servizio}: basarsi su una rete peer-to-peer permette di garantire la disponibilità del servizio anche nel caso un certo numero di peer non fosse disponibile. Le policy di consenso influenzano anche questo punto molto pesantemente: se stabilisco che una transazione debba ricevere il consenso da tutti gli altri peer, ne basta uno non funzionante e il sistema risulta non disponibile;
 			\end{itemize}
-		\subsubsection{Svantaggi: [bozza]}
+		\subsubsection{Svantaggi:}
 			\begin{itemize}
 				\item \textbf{Inefficienza rispetto ai database tradizionali}: la natura ridondante e cifrata di Blockchain mal si concilia con le necessità di alta velocità in lettura/scrittura;
 				\item \textbf{Scalabilità}: la necessità di mantenere tracciata ogni modifica effettuata al registro distribuito provoca l'enorme aumento nel tempo della dimensione del database. Nel caso di sistemi trusted sarebbe possibile ridurre periodicamente la dimensione del database considerando affidabile la situazione in un certo momento ed eliminando la storia delle transazioni relative ai dati precedenti, ma questo procedimento andrebbe a minare la condizione di sicurezza e tracciabilità totale dei sistemi Blockchain;
@@ -62,15 +62,15 @@
 			\end{itemize}
 		
 	\subsection{Blockchain pubbliche}
-		Rappresentano l'aspetto rivoluzionario di Blockchain. L'idea originaria di Nakamoto ha permesso per la prima volta di generare un'entità digitale \emph{scarsa}, ovvero non arbitrariamente replicabile, senza la necessità della supervisione di un intermediario centrale. In questa tipologia si trovano i vantaggi più dirompenti, assieme ai limiti più vincolanti.
-		\subsubsection{Vantaggi: [bozza]}
+		Rappresentano l'aspetto rivoluzionario di Blockchain. L'idea originaria di Nakamoto ha permesso per la prima volta di generare un'entità digitale \emph{scarsa}, ovvero non arbitrariamente replicabile, senza la necessità della supervisione di un intermediario centrale. Inoltre, il sistema proposto da Nakamoto deve la sua stabilità all'impossibilità di fatto di alterare il registro condiviso: questo lo rende ideale nel contesto delle pratiche di notariato, che possono affidarsi ad una rete per la validazione prescindendo da un certificatore apposito. Una naturale applicazione della tecnologia si può individuare nella gestione delle proprietà (che possono diventare \emph{smart properties}) o nel timestamping di documenti. In questa tipologia si trovano i vantaggi più dirompenti, assieme ai limiti più vincolanti.
+		\subsubsection{Vantaggi:}
 			\begin{itemize}
 				\item \textbf{No single point of failure}: la replicazione in ogni nodo e il sistema di consenso totalmente distribuito permettono il corretto funzionamento della rete anche nel caso in cui uno o più nodi non fossero raggiungibili, o presentassero comportamenti anomali;
 				\item \textbf{Non censurabilità o revocabilità del servizio}: il sistema è indipendente dal controllo di un intermediario centrale, pertanto non esiste un partecipante alla rete che abbia la possibilità di negare arbitrariamente l'accesso al servizio ad un altro elemento.
 				\item \textbf{Velocità di validazione}: prescindere da intermediari può portare ad un'accorciamento dei tempi necessari allo svolgimento di operazioni come quelle finanziarie. Paragonata ad altri sistemi informatici un'infrastruttura di questo tipo è sicuramente più lenta, ma se si considerano i tempi attualmente necessari a seguire le procedure legali in caso sia necessario validare e approvare documenti si nota come Blockchain permetta di effettuare operazioni verificabili in maniera estremamente veloce.
 				\item \textbf{Risparmio sulle transazioni} analogamente a quanto detto per la velocità di validazione, eliminare la necessità di controllo da parte di terzi permette una riduzione considerevole dei costi per ogni procedura;
 			\end{itemize}
-		\subsubsection{Svantaggi: [bozza]}
+		\subsubsection{Svantaggi:}
 			\begin{itemize}
 				\item \textbf{Scalabilità}: in questo caso la situazione è estremamente più drastica rispetto a quella dei sistemi permissioned. Non è infatti possibile stabilire un momento in cui si considera il sistema affidabile, e non esiste nemmeno un ente o un supervisore che possa essere investito di tale incarico. L'immagine riporta la situazione della blockchain di Bitcoin aggiornata al 05/11/2017, e lascia intuire come questo aspetto rischi facilmente di andare fuori controllo e risultare estremamente limitante per il sistema.
 				\begin{figure}[ht]

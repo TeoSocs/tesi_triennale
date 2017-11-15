@@ -6,7 +6,15 @@
 @import url(../../lib/font/source-sans-pro/source-sans-pro.css);
 section.has-dark-background, section.has-dark-background h1, section.has-dark-background h2, section.has-dark-background h3, section.has-dark-background h4, section.has-dark-background h5, section.has-dark-background h6 {
   color: #fff; }
-
+.logo{
+  position:absolute;
+  left:0;
+  top:-37.5vh;
+  z-index: -1;
+  width:100vw;
+  border:none !important;
+  box-shadow:none !important;
+}
 /*********************************************
  * GLOBAL STYLES
  *********************************************/

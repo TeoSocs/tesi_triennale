@@ -31,7 +31,8 @@ Alla luce di quanto scritto finora, una possibile applicazione della tecnologia 
 			\caption{Ring signature}
 			\label{fig:ring_signature}
 		\end{figure}
-
+		Una \emph{Linkable} ring signature (LRS) permette inoltre di determinare se due ring signature sono state computate dallo stesso membro del gruppo, pur senza poter risalire alla sua identità. \\
+		La maggior parte degli algoritmi per la costruzione di Ring Signature ha complessità $O(n)$, anche se ne esistono di più efficienti come quello proposto da Tsang e Wei in \emph{Short Linkable Ring Signatures for E-voting, E-cash and Attestation}\cite{SLRS}, basato su un lavoro di Dodis del 2004.
 
 \section{Architettura}
 	Il sistema si articola in due blockchain separate, la blockchain di firma e la blockchain di voto (da ora rispettivamente Signature chain o SC e Vote chain o VC). Le due chain sono isolate, per garantire la non collegabilità del voto al votante in fase di scrutinio.
@@ -107,7 +108,9 @@ Alla luce di quanto scritto finora, una possibile applicazione della tecnologia 
 	
 	
 	\subsection{Necessità dei raggruppamenti}
-		La suddivisione in sezioni elettorali è assolutamente necessaria nel sistema di voto attualmente adottato a causa di problemi logistici: è impensabile infatti raggruppare tutte le schede e svolgere un'unica operazione di scrutinio, soprattutto considerando il livello di sorveglianza che sarebbe richiesto in ogni momento dell'operazione. In un sistema automatico come quello proposto, esente da queste problematiche, sono stati introdotti raggruppamenti di elettori per differenti ragioni. In primo luogo, la complessità computazionale degli algoritmi più noti e affermati per la ring signature è lineare: questo preclude l'uso significativo di questa tecnologia (centrale nel modello proposto) per insiemi di chiavi sufficientemente grandi. In secondo luogo, nel caso un attacco permettesse di replicare lo stesso voto più volte la divisione in raggruppamenti permette di contenere i danni al solo raggruppamento interessato.
+		La suddivisione in sezioni elettorali è assolutamente necessaria nel sistema di voto attualmente adottato a causa di problemi logistici: è impensabile infatti raggruppare tutte le schede e svolgere un'unica operazione di scrutinio, soprattutto considerando il livello di sorveglianza che sarebbe richiesto in ogni momento dell'operazione. In un sistema automatico come quello proposto, esente da queste problematiche, sono stati introdotti raggruppamenti di elettori per differenti ragioni. \\
+		In primo luogo, la complessità computazionale degli algoritmi più noti e affermati per la ring signature è lineare: questo preclude l'uso significativo di questa tecnologia (centrale nel modello proposto) per insiemi di chiavi sufficientemente grandi. Anche implementando i più recenti algoritmi sublineari, la divisione in raggruppamenti permette di limitare ulteriormente il carico ai nodi del sistema, migliorandone l'efficienza e limitandone i costi in caso di affidamento a piattaforme come Ethereum, in cui il costo della transazione scala in base alla complessità del task da eseguire. \\
+		In secondo luogo, nel caso un attacco permettesse di replicare lo stesso voto più volte la divisione in raggruppamenti permette di contenere i danni al solo raggruppamento interessato. \\
 		È da sottolineare come, nel caso di un sistema elettronico, l'indipendenza dai problemi logistici dei sistemi tradizionali permetta di variare di volta in volta la composizione dei raggruppamenti, rendendo inutile qualsiasi informazione trapelata dalle votazioni precedenti. Questa è una condizione certamente più sicura di quella attuale, dove una semplice osservazione sul posto permette di identificare gli appartenenti a ciascuna sezione e far trapelare quindi informazioni (per quanto parziali) sulle preferenze di voto espresse: essendo i risultati delle votazioni per seggio pubblici, il trapelare di qualsiasi informazione sulla composizione del seggio è da considerarsi quantomeno indesiderato.
 	
 	\subsection{Prevedibili miglioramenti futuri al sistema}

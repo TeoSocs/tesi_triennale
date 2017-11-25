@@ -38,14 +38,17 @@ In questo capitolo si vuole presentare il quadro attuale della situazione attorn
             \item Algoritmi di consenso
             \item Problemi crittografici nuovi
         \end{itemize}
-        Il problema della scalabilità dei sistemi blockchain è molto dipendente dall'algoritmo di consenso implementato.
-        ...
-        PoW bello ma costoso in termini di risorse
+        Il problema della scalabilità dei sistemi blockchain è molto dipendente dall'algoritmo di consenso implementato. Quelli ad oggi adottati su larga scala sono basati su proof-of-work, che paradossalmente basa la sua sicurezza sulla sua assoluta inefficienza. Inoltre, la storia di Bitcoin mostra come sia inefficace nel mantenere equilibrata la competizione tra i miner, portando un accentramento delle capacità di gestione della rete nelle mani di server farm dedicate. Ethereum migliora questo aspetto attraverso un algoritmo simile, ma in cui ha meno vantaggi investire in hardware dedicato. Tuttavia la ricerca ad un algoritmo che permetta l'effettiva ``democratizzazione'' del mining è ancora apertissima, accompagnata da quella su problemi crittografici meno parallelizzabili su cui basare ulteriori varianti degli algoritmi proof-of-work.
+        
     \subsection{Standardizzazione e interoperabilità}
         Blockchain non è ancora una tecnologia sufficientemente matura da permettere una piena ed agevole integrazione con i sistemi esistenti. Emettere degli standard adeguati aiuterà a migliorare l'integrazione dei sistemi blockchain tanto fra di loro quanto con l'infrastruttura circostante. \\
         Dal punto di vista applicativo lo sviluppo di framework come Hyperledger aiuta a creare una base solida e delle sottostrutture chiare per la progettazione di reti distribuite interoperanti, e maggiore sarà il numero di utenti che abbracceranno soluzioni di questo tipo minori saranno le differenze critiche tra sistema e sistema permettendo adattamenti più agevoli. D'altra parte, è necessario che tali piattaforme si sviluppino e allarghino la gamma di scenari modellabili venendo incontro alle necessità di gruppi di utenti sempre più grandi ed eterogenei. \\
         Dal punto di vista normativo invece si sono visti passi in avanti con la creazione nel 2016 del comitato tecnico ISO/TC 307 ``Blockchain and distributed ledger technologies", che sta sviluppando il primo standard ISO ufficiale sull'argomento.
+
     \subsection{Privacy}
+        
+        \subsubsection{Obfuscation}
+            vedi pag 244 di Understanding Bitcoin
         \subsubsection{Algoritmi zero-knowledge}
             \begin{itemize}
                 \item \textbf{Zero-Knowledge Password Proof} \\
@@ -55,8 +58,6 @@ In questo capitolo si vuole presentare il quadro attuale della situazione attorn
                 \item \textbf{zk-SNARK} \\
                     \url{https://z.cash/technology/zksnarks.html}
             \end{itemize}
-        \subsubsection{Obfuscation}
-            vedi pag 244 di Understanding Bitcoin
 
 \section{Cosa si potrà fare}
     \begin{itemize}

@@ -1,5 +1,3 @@
-\section*{DISCLAIMER} \emph{Questa sezione è un cantiere aperto. NON è definitiva in nessuna sua parte, NON nei contenuti, NON nella struttura, NON nel tono generale del discorso. Si tratta di una serie di appunti che sto prendendo e che saranno la base su cui scriverò poi la versione definitiva, li inserisco per mantenerne traccia e per avere ben chiara la direzione che sta intraprendendo il discorso.}
-
 In questo capitolo si vuole presentare il quadro attuale della situazione attorno ai sistemi blockchain. Nuove tecnologie sono sviluppate continuamente, perciò dopo una breve panoramica sui progetti più interessanti già in stadio avanzato di sviluppo si illustreranno le sfide e gli ambiti di ricerca più ferventi, fino ad arrivare ad elencare alcune delle applicazioni che potrebbero conseguire dai risultati di tali ricerche.
 
 \section{Innovazioni vicine}
@@ -34,9 +32,10 @@ In questo capitolo si vuole presentare il quadro attuale della situazione attorn
 
 \section{Sfide e ambiti di ricerca}
     \subsection{Efficienza e scalabilità}
+        Sono essenzialmente due gli obiettivi di ricerca per la soluzione ai problemi di efficienza e scalabilità, ovvero:
         \begin{itemize}
-            \item Algoritmi di consenso
-            \item Problemi crittografici nuovi
+            \item Algoritmi di consenso;
+            \item Problemi crittografici nuovi.
         \end{itemize}
         Il problema della scalabilità dei sistemi blockchain è molto dipendente dall'algoritmo di consenso implementato. Quelli ad oggi adottati su larga scala sono basati su proof-of-work, che paradossalmente basa la sua sicurezza sulla sua assoluta inefficienza. Inoltre, la storia di Bitcoin mostra come sia inefficace nel mantenere equilibrata la competizione tra i miner, portando un accentramento delle capacità di gestione della rete nelle mani di server farm dedicate. Ethereum migliora questo aspetto attraverso un algoritmo simile, ma in cui ha meno vantaggi investire in hardware dedicato. Tuttavia la ricerca ad un algoritmo che permetta l'effettiva ``democratizzazione'' del mining è ancora apertissima, accompagnata da quella su problemi crittografici meno parallelizzabili su cui basare ulteriori varianti degli algoritmi proof-of-work.
         
@@ -46,20 +45,28 @@ In questo capitolo si vuole presentare il quadro attuale della situazione attorn
         Dal punto di vista normativo invece si sono visti passi in avanti con la creazione nel 2016 del comitato tecnico ISO/TC 307 ``Blockchain and distributed ledger technologies", che sta sviluppando il primo standard ISO ufficiale sull'argomento.
 
     \subsection{Privacy}
-        
-        \subsubsection{Obfuscation}
-            vedi pag 244 di Understanding Bitcoin
-        \subsubsection{Algoritmi zero-knowledge}
+        Si possono distinguere due punti chiave in cui si sta lavorando per migliorare l'aspetto relativo alla privacy su Blockchain. In primo luogo, l'uso di pseudonimi non può certo considerarsi un modo sicuro per nascondere l'identità che si cela dietro questi. In secondo luogo, in determinati casi è desiderabile garantire la riservatezza di alcuni dati salvati in catena, magari restringendone l'accesso solo a determinati utenti. Si riportano nel seguito alcune soluzioni a questi problemi.
+        \subsubsection{Mixer}
+            Prendono il nome di \emph{mixer} tutte quelle tecnologie applicabili ai sistemi basati su token che permettono di offuscare mittente e destinatario delle transazioni senza intervenire direttamente sul protocollo. \\
+            Esempi notevoli sono \emph{CoinJoin} e \emph{CoinSwap}. \\
             \begin{itemize}
-                \item \textbf{Zero-Knowledge Password Proof} \\
-                    \url{https://en.wikipedia.org/wiki/Zero-knowledge_password_proof}
-                \item \textbf{Piattaforma Enigma} \\
-                        \url{https://www.enigma.co/enigma_full.pdf}
-                \item \textbf{zk-SNARK} \\
-                    \url{https://z.cash/technology/zksnarks.html}
+                \item In CoinJoin, più utenti concordano di ``mescolare" una certa quantità di valuta e creano una singola transazione multi-input e multi-output, mescolando letteralmente i coin in loro possesso. Ciò permette di confondere la maggior parte delle strategie di analisi del traffico, poiché presuppongono tipicamente che gli indirizzi in input per ogni transazione appartengano allo stesso utente. Come altri servizi di mixing, non rende impossibile rompere l'anonimato degli indirizzi ma lo rende più difficoltoso.
+                \item CoinSwap sfrutta invece un utente terzo che faccia da intermediario tra le controparti della transazione. Per garantire che l'intermediario rispetti l'accordo e non imbrogli il sistema, CoinSwap fa uso di transazioni bloccate, che possono essere sbloccate solo conoscendo la controimmagine di un dato hash (\emph{hashlocked transaction}) e che sono pubblicate in chain solamente nel caso l'intermediario non rispetti gli accordi. La pubblicazione delle hashlocked transaction rompe l'anonimizzazione creata ma impedisce azioni malevole.
+                \begin{figure}
+                    \centering
+                    \includegraphics[width=0.8\textwidth]{coinswap.jpg}
+                    \caption{Transazione CoinSwap}
+                    \label{fig:coinswap}
+                \end{figure}
             \end{itemize}
+        \subsubsection{Condivisione selettiva di dati sensibili}
+            Un possibile compromesso per tutelare la privacy dei dati condivisi riguarda la suddivisione del sistema in sotto-catene, in modo che ciascuna transazione sia condivisa non con la totalità dei nodi, ma solamente tra le due controparti ed un ristretto insieme di controllori. Pur apprezzabile per quanto riguarda privacy e scalabilità, questo approccio va a ridurre sensibilmente la sicurezza dell'intero sistema. Non esiste più infatti una singola catena di transazioni concordate, e l'immutabilità del registro è tanto più debole quanti meno sono i nodi a conoscenza della transazione.
+        \subsubsection{Frammentazione dei dati}
+            Si potrebbero gestire dati criptati su blockchain affidandone la manipolazione a diversi partecipanti in maniera frammentaria. Le operazioni sono suddivise in frammenti non riconoscibili e distribuite in modo che ciascun nodo non abbia sufficienti informazioni da ricostruire il contesto da cui i dati provengono. Un esempio di protocollo che permette di ottenere un simile risultato è quello adottato dal sistema Enigma, sviluppato dal MIT \cite{enigma}.
+        \subsubsection{Algoritmi zero-knowledge}
+            Uno degli argomenti più dibattuti in crittografia negli ultimi anni sono le \emph{zero-knowledge proof}. Si tratta di funzioni matematiche che possono essere eseguite su dati criptati in maniera che il loro risultato possa essere validato senza alcuna esposizione di dati non criptati. Acquistano un interesse particolare soprattutto pensando a sistemi basati su smart contract: potenzialmente permettono a diversi nodi di lavorare su uno smart contract senza che vengano loro rivelati i dati su cui stanno operando. Un primo esempio di applicazione di algoritmi zero-knowledge è zCash, che si basa su zk-SNARK \cite{zkSNARK}.
 
-\section{Cosa si potrà fare}
+\section{Cosa si potrà fare [WORK IN PROGRESS]}
     \begin{itemize}
         \item Reti IoT sicure basate su Blockchain condivise
         \item Condivisione dati sensibili (cartelle cliniche?)

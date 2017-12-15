@@ -190,14 +190,14 @@ rule NetworkAdminSystem {
 }
 \end{lstlisting}
 
-\section{Generare il Business network archive}
-	Terminata la definizione delle proprietà della rete è necessario impacchettarla in un file \emph{.bna} che rappresenta un archivio esportabile da cui poter poi effettuare il deploy su un sottostante sistema Fabric.
-	Per fare ciò è necessario:
-	\begin{itemize}
-		\item Spostarsi nella cartella \emph{voting-network}
-		\item Lanciare il seguente comando da terminale:
-			\begin{lstlisting}
+	\subsection{Generare il Business network archive}
+		Terminata la definizione delle proprietà della rete è necessario impacchettarla in un file \emph{.bna} che rappresenta un archivio esportabile da cui poter poi effettuare il deploy su un sottostante sistema Fabric.
+		Per fare ciò è necessario:
+		\begin{itemize}
+			\item Spostarsi nella cartella \emph{voting-network}
+			\item Lanciare il seguente comando da terminale:
+				\begin{lstlisting}
 composer archive create -t dir -n .
-			\end{lstlisting}
-	\end{itemize}
-	Al termine dell'esecuzione potremo trovare un file chiamato \emph{voting-network@0.0.1.bna} nella cartella da cui abbiamo lanciato il comando.
+				\end{lstlisting}
+		\end{itemize}
+		Al termine dell'esecuzione potremo trovare un file chiamato \emph{voting-network@0.0.1.bna} nella cartella da cui abbiamo lanciato il comando.

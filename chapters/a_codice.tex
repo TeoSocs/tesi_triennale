@@ -7,8 +7,9 @@
 	commentstyle=\color{mygreen},
 	keywordstyle=\color{blue},
 	stringstyle=\color{mymauve},
-	numberstyle=\tiny\color{lightgray},
-	numbersep=5pt,
+	numbers=none,
+	%numberstyle=\tiny\color{lightgray},
+	%numbersep=5pt,
 	%frame=single,
 	rulecolor=\color{mygray}, 
 	breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
@@ -41,7 +42,7 @@
 	basicstyle=\footnotesize\ttfamily,
 	showstringspaces=false,
 	showspaces=false,
-	numbers=left,
+	numbers=none,
 	numberstyle=\footnotesize,
 	numbersep=9pt,
 	tabsize=2,
@@ -160,7 +161,7 @@ rule Vote {
 	participant: "eurasia.voting.Voter"
 	operation: CREATE, UPDATE
 	resource: "eurasia.voting.Vote"
-	transaction(tx): "eurasia.voting.Voting"
+	transaction: "eurasia.voting.Voting"
 	action: ALLOW
 }
 
@@ -188,3 +189,15 @@ rule NetworkAdminSystem {
 	action: ALLOW
 }
 \end{lstlisting}
+
+\section{Generare il Business network archive}
+	Terminata la definizione delle proprietà della rete è necessario impacchettarla in un file \emph{.bna} che rappresenta un archivio esportabile da cui poter poi effettuare il deploy su un sottostante sistema Fabric.
+	Per fare ciò è necessario:
+	\begin{itemize}
+		\item Spostarsi nella cartella \emph{voting-network}
+		\item Lanciare il seguente comando da terminale:
+			\begin{lstlisting}
+composer archive create -t dir -n .
+			\end{lstlisting}
+	\end{itemize}
+	Al termine dell'esecuzione potremo trovare un file chiamato \emph{voting-network@0.0.1.bna} nella cartella da cui abbiamo lanciato il comando.

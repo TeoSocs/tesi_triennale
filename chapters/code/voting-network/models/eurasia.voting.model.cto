@@ -1,0 +1,35 @@
+/**
+* My voting network
+*/
+
+namespace eurasia.voting
+
+asset VotingGroup identified by groupId {
+	o String groupId
+	--> Voter[] members
+}
+
+asset Vote identified by voteSig {
+	o String voteSig
+	--> VotingGroup group
+	--> Candidate recipient
+}
+
+participant Voter identified by voterId {
+	o String voterId
+	o String firstName
+	o String lastName
+}
+
+participant Candidate identified by candidateId {
+	o String candidateId
+	o String firstName
+	o String lastName
+	o Integer balance
+}
+
+transaction Voting {
+	o String signature
+	--> VotingGroup group
+	--> Candidate recipient
+}

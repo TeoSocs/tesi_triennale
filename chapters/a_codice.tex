@@ -72,123 +72,15 @@ yo hyperledger-composer:businessnetwork
 		Inseriamo ``voting-network" come nome della rete e ``eurasia.voting" come namespace.
 	\subsection{Definire le caratteristiche della rete}
 		La nostra rete si fonda su asset (e.g i raggruppamenti di votanti), partecipanti (e.g votanti e candidati), transazioni come quella che permette ad un utente di votare e query che consentano la consultazione agevole dei dati. Come output del comando precedente, c'è un file di modello (\emph{.cto}) che conterrà le definizioni di ciascuna classe di asset, transazioni, partecipanti ed eventi. Il contenuto di questo file sarà:
-\begin{lstlisting}
-/**
-* My voting network
-*/
+		\lstinputlisting{chapters/code/voting-network/models/eurasia.voting.model.cto}
 
-namespace eurasia.voting
-
-asset VotingGroup identified by groupId {
-	o String groupId
-	--> Voter[] members
-}
-
-asset Vote identified by voteSig {
-	o String voteSig
-	--> VotingGroup group
-	--> Candidate recipient
-}
-
-participant Voter identified by voterId {
-	o String voterId
-	o String firstName
-	o String lastName
-}
-
-participant Candidate identified by candidateId {
-	o String candidateId
-	o String firstName
-	o String lastName
-	o Integer balance
-}
-
-transaction Voting {
-	o String signature
-	--> VotingGroup group
-	--> Candidate recipient
-}
-\end{lstlisting}
 	\subsection{Scrivere la logica delle transazioni in JavaScript}
 		Nel file di modello è stata definita una transazione \emph{Vote}, il cui scopo è quello di creare un nuovo voto ed indirizzarlo al candidato prescelto. Editiamo il file \emph{logic.js} per specificare il comportamento di questa transazione usando il linguaggio JavaScript, prestando attenzione ad utilizzare la sintassi accettata dal Transaction processor di Composer.
-\begin{lstlisting}[language=JavaScript]
-/**
-* Vote for a candidate
-* @param {eurasia.voting.Voting} voting - the vote to be processed
-* @transaction
-*/
-function newVote(voting) {	
-	// Get the factory for creating new asset instances
-	var factory = getFactory();
-	// Create the vote.
-	var vote = factory.newResource('eurasia.voting', 'Vote', computeSig(voting.signature));
-	vote.group = voting.group;
-	vote.recipient = voting.recipient;
-	voting.recipient.balance++;
-	return getAssetRegistry('eurasia.voting.Vote')
-		.then(function (assetRegistry) {
-			// Update the asset in the asset registry. Again, note
-			// that update() returns a promise, so so we have to return
-			// the promise so that Composer waits for it to be resolved.
-			return assetRegistry.add(vote)
-		})
-		.then(function () {
-			return getParticipantRegistry('eurasia.voting.Candidate')
-		})
-		.then(function (participantRegistry) {
-			return participantRegistry.update(voting.recipient);
-		});
-}
+		\lstinputlisting{chapters/code/voting-network/lib/logic.js}
 
-/*
-* This function should represent the implementation of a linkable ring signature algorythm. In this PoC it will return a simple timestamp + an arbitrary id
-*/
-function computeSig(mySig){
-	var sig = new Date().valueOf();
-	sig += mySig;
-	return sig;
-}
-
-\end{lstlisting}
 	\subsection{Aggiungere il controllo agli accessi}
 		Creiamo il file \emph{permissions.acl} nella cartella \emph{voting-network}, e al suo interno specifichiamo le regole per il controllo degli accessi in questo modo:
-\begin{lstlisting}
-/**
-* Access control rules for voting-network
-*/
-rule Vote {
-	description: "Allow all voters to vote through a transaction"
-	participant: "eurasia.voting.Voter"
-	operation: CREATE, UPDATE
-	resource: "eurasia.voting.Vote"
-	transaction: "eurasia.voting.Voting"
-	action: ALLOW
-}
-
-rule SystemACL {
-	description:  "System ACL to permit all access"
-	participant: "ANY"
-	operation: ALL
-	resource: "org.hyperledger.composer.system.**"
-	action: ALLOW
-}
-
-rule NetworkAdminUser {
-	description: "Grant business network administrators full access to user resources"
-	participant: "org.hyperledger.composer.system.NetworkAdmin"
-	operation: ALL
-	resource: "**"
-	action: ALLOW
-}
-
-rule NetworkAdminSystem {
-	description: "Grant business network administrators full access to system resources"
-	participant: "org.hyperledger.composer.system.NetworkAdmin"
-	operation: ALL
-	resource: "org.hyperledger.composer.system.**"
-	action: ALLOW
-}
-\end{lstlisting}
+		\lstinputlisting{chapters/code/voting-network/permissions.acl}
 
 	\subsection{Generare il Business network archive}
 		Terminata la definizione delle proprietà della rete è necessario impacchettarla in un file \emph{.bna} che rappresenta un archivio esportabile da cui poter poi effettuare il deploy su un sottostante sistema Fabric.

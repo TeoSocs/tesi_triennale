@@ -72,7 +72,7 @@ yo hyperledger-composer:businessnetwork
 		Inseriamo ``voting-network" come nome della rete e ``eurasia.voting" come namespace.
 	\subsection{Definire le caratteristiche della rete}
 		La nostra rete si fonda su asset (e.g i raggruppamenti di votanti), partecipanti (e.g votanti e candidati), transazioni come quella che permette ad un utente di votare e query che consentano la consultazione agevole dei dati. Come output del comando precedente, c'è un file di modello (\emph{.cto}) che conterrà le definizioni di ciascuna classe di asset, transazioni, partecipanti ed eventi. Il contenuto di questo file sarà:
-		\lstinputlisting{chapters/code/voting-network/models/eurasia.voting.model.cto}
+		\lstinputlisting{chapters/code/voting-network/models/eurasia.voting.cto}
 
 	\subsection{Scrivere la logica delle transazioni in JavaScript}
 		Nel file di modello è stata definita una transazione \emph{Vote}, il cui scopo è quello di creare un nuovo voto ed indirizzarlo al candidato prescelto. Editiamo il file \emph{logic.js} per specificare il comportamento di questa transazione usando il linguaggio JavaScript, prestando attenzione ad utilizzare la sintassi accettata dal Transaction processor di Composer.

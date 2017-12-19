@@ -106,6 +106,7 @@ configtxgen -profile VotingChannel \
 # set useful variables
 ARCH=`uname -m`
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+export FABRIC_START_TIMEOUT=15
 
 ARCH=$ARCH docker-compose \
 			-f "${DIR}"/voting/docker-compose.yml up -d

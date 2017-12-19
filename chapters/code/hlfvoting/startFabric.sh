@@ -9,7 +9,8 @@ ARCH=`uname -m`
 # Grab the current directory
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-#
+# Set start timeout
+export FABRIC_START_TIMEOUT=15
 
 ARCH=$ARCH docker-compose -f "${DIR}"/voting/docker-compose.yml down
 ARCH=$ARCH docker-compose -f "${DIR}"/voting/docker-compose.yml up -d

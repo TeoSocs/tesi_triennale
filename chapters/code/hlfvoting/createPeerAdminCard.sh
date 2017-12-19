@@ -23,35 +23,35 @@ fi
 
 cat << EOF > /tmp/.connection.json
 {
-    "name": "hlfv1",
+    "name": "voting-network",
     "type": "hlfv1",
     "orderers": [
        { "url" : "grpc://localhost:7050" }
     ],
-    "ca": { "url": "http://localhost:7054", "name": "ca.org1.example.com"},
+    "ca": { "url": "http://localhost:7054", "name": "ca.Stato.eurasia.com"},
     "peers": [
         {
             "requestURL": "grpc://localhost:7051",
             "eventURL": "grpc://localhost:7053"
         }
     ],
-    "channel": "composerchannel",
-    "mspID": "Org1MSP",
+    "channel": "votingchannel",
+    "mspID": "StatoMSP",
     "timeout": 300
 }
 EOF
 
-PRIVATE_KEY="${DIR}"/composer/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/114aab0e76bf0c78308f89efc4b8c9423e31568da0c340ca187a9b17aa9a4457_sk
-CERT="${DIR}"/composer/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/Admin@org1.example.com-cert.pem
+PRIVATE_KEY="${DIR}"/voting/crypto-config/peerOrganizations/Stato.eurasia.com/users/Admin@Stato.eurasia.com/msp/keystore/85760ae355755dc7b6017d4fc250d294e2f953817c742033f3a7fd70af2af4e8_sk
+CERT="${DIR}"/voting/crypto-config/peerOrganizations/Stato.eurasia.com/users/Admin@Stato.eurasia.com/msp/signcerts/Admin@Stato.eurasia.com-cert.pem
 
-if composer card list -n PeerAdmin@hlfv1 > /dev/null; then
-    composer card delete -n PeerAdmin@hlfv1
+if composer card list -n PeerAdmin@hlfvoting > /dev/null; then
+    composer card delete -n PeerAdmin@hlfvoting
 fi
-composer card create -p /tmp/.connection.json -u PeerAdmin -c "${CERT}" -k "${PRIVATE_KEY}" -r PeerAdmin -r ChannelAdmin --file /tmp/PeerAdmin@hlfv1.card
-composer card import --file /tmp/PeerAdmin@hlfv1.card 
+composer card create -p /tmp/.connection.json -u PeerAdmin -c "${CERT}" -k "${PRIVATE_KEY}" -r PeerAdmin -r ChannelAdmin --file /tmp/PeerAdmin@hlfvoting.card
+composer card import --file /tmp/PeerAdmin@hlfvoting.card 
 
 rm -rf /tmp/.connection.json
 
-echo "Hyperledger Composer PeerAdmin card has been imported"
+echo "Hyperledger Composer card for PeerAdmin at voting-network has been imported"
 composer card list
 

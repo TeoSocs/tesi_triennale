@@ -120,7 +120,7 @@ docker exec peer0.Stato.eurasia.com peer channel create \
 			-f /etc/hyperledger/configtx/voting-channel.tx
 
 docker exec \
--e "CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/users/Admin@stato.eurasia.com/msp" \
+-e "CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/users/Admin@Stato.eurasia.com/msp" \
 peer0.Stato.eurasia.com peer channel join -b votingchannel.block
 \end{lstlisting}
 	
@@ -154,3 +154,5 @@ composer archive create -t dir -n .
 				\end{lstlisting}
 		\end{itemize}
 		Al termine dell'esecuzione potremo trovare un file chiamato \lstinline{voting-network@0.0.1.bna} nella cartella da cui abbiamo lanciato il comando.
+		
+\section{Deploy della rete sul sottosistema Fabric}

@@ -22,6 +22,26 @@ Alla luce di quanto scritto finora, una possibile applicazione della tecnologia 
 				\item \textbf{Transazioni}: sono la rappresentazione di ogni azione effettuata sul registro. Possono essere \emph{deploy transactions} che creano nuovo chaincode e lo ``installano" in un canale oppure \emph{invoke transactions} che invocano una funzione presente in un chaincode installato per effettuare letture o modifiche al ledger. Ciascuna transazione deve essere approvata e gestita dall'orderer, e viene registrata nella blockchain per la futura tracciabilità.
 			\end{itemize}
 		
+	\subsection{Hyperledger Composer}
+		\begin{figure}[!ht]
+			\centering
+			\includegraphics[width=\textwidth]{composer_screenshot.png}
+			\caption{Schermate di Hyperledger Composer Playground}
+			\label{fig:composer_screenshot}
+		\end{figure}
+		Hyperledger Composer è una collezione di strumenti che facilitano lo sviluppo di reti blockchain aziendali, favorendo la collaborazione di differenti gruppi specializzati per la creazione della rete e lo sviluppo delle applicazioni. Fornisce un'astrazione orientata ai processi aziendali, così come applicazioni di esempio e tool di test. Permette di:
+		\begin{itemize}
+			\item modellare e condividere i componenti fondamentali di una business network ovvero:
+				\begin{itemize}
+					\item asset,
+					\item partecipanti,
+					\item logica delle transazioni,
+					\item controllo degli accessi;
+				\end{itemize}
+			\item Generare API REST e JavaScript associate alla rete modellata che possono essere usate per interagire con le applicazioni, integrare sistemi preesistenti o analizzare la rete blockchain;
+			\item Sviluppare e testare attraverso l'applicazione web Composer Playground senza dover installare nulla, potendo effettuare il deploy su di un sistema blockchain in seguito.
+		\end{itemize} 
+		
 	\subsection{Ring signature}
 		Una ring signature, o firma ad anello, è un tipo di firma digitale legata ad un gruppo di utenti ciascuno in possesso di una chiave. Questo tipo di firma permette di verificare che l'autore appartiene a quel dato gruppo di utenti rendendo però computazionalmente infattibile determinare quale specifico utente esso sia. Riporto di seguito (tradotta) una possibile definizione formale \cite{ring_signature}: \\
 		Si supponga che un gruppo di entità possieda le coppie di chiavi pubbliche/private $(P_1, S_1), (P_2, S_2), ..., (P_n, S_n)$. Il soggetto \emph{i} può apporre una ring signature $\sigma$ sul messaggio \emph{m} avendo in input $(m, S_i, P_1, ..., P_n)$. Chiunque può verificare la validità della firma dati $\sigma, m$ e le chiavi pubbliche coinvolte $P_1, ..., P_n$.

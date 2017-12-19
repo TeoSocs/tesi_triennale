@@ -1,6 +1,8 @@
 \definecolor{mygreen}{rgb}{0,0.6,0}
 \definecolor{mygray}{rgb}{0.5,0.5,0.5}
 \definecolor{mymauve}{rgb}{0.58,0,0.82}
+\definecolor{darkgray}{rgb}{.4,.4,.4}
+\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
 
 \lstset{
 	basicstyle=\footnotesize \ttfamily,
@@ -14,11 +16,10 @@
 	rulecolor=\color{mygray}, 
 	breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
 	breaklines=true,                 % sets automatic line breaking
-	tabsize=4
+	tabsize=4,
+	showspaces=false,
+	showstringspaces=false
 }
-
-\definecolor{darkgray}{rgb}{.4,.4,.4}
-\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
 
 %define Javascript language
 \lstdefinelanguage{JavaScript}{
@@ -33,35 +34,95 @@
 	commentstyle=\color{purple}\ttfamily,
 	stringstyle=\color{red}\ttfamily,
 	morestring=[b]',
-	morestring=[b]"
-}
-
-\lstset{
-	language=JavaScript,
-	extendedchars=true,
-	basicstyle=\footnotesize\ttfamily,
-	showstringspaces=false,
+	morestring=[b]",
 	showspaces=false,
-	numbers=none,
-	numberstyle=\footnotesize,
-	numbersep=9pt,
-	tabsize=2,
-	breaklines=true,
-	showtabs=false,
-	captionpos=b
+	showstringspaces=false
 }
 
-%\section{Costruzione della rete}
-%	\lstinputlisting[language=bash]{chapters/code/build.sh}
-	
-%\section{Configurazione crypto-tool}
-%	\lstinputlisting{chapters/code/crypto-config.yaml}
-	
-%\section{Configurazione configtxgen}
-%	\lstinputlisting{chapters/code/configtx.yaml}
+\lstdefinelanguage{docker-compose}{
+	keywords={image, environment, ports, container_name, ports, volumes, links},
+	keywordstyle=\color{blue}\bfseries,
+	identifierstyle=\color{black},
+	sensitive=false,
+	comment=[l]{\#},
+	commentstyle=\color{purple}\ttfamily,
+	stringstyle=\color{red}\ttfamily,
+	morestring=[b]',
+	morestring=[b]",
+	showstringspaces=false
+}
 
-%\section{Compose}
-%	\lstinputlisting{chapters/code/docker-compose.yml}
+
+Si descrive nel seguito il procedimento seguito per creare una piccola demo del sistema di voto basata su Hyperledger Fabric. Prima di tutto si procederà a virtualizzare una semplice rete formata da un solo peer e un solo orderer, ed in seguito si descriverà l'uso di Hyperledger Composer per la configurazione del sistema fino alla creazione di opportune API REST su cui basare un'applicazione.
+
+\section{Costruzione della rete}
+	Si presuppone che nel sistema siano stati installati e configurati i software necessari, in particolare in questa sezione si uilizzeranno i binari di Hyperledger Fabric (che devono essere inseriti nel PATH), Docker e Docker-Compose.
+	\subsection{Crypto Generator}
+		Per prima cosa si genera il materiale crittografico necessario all'identificazione delle diverse entità in rete. Si tratta sostanzialmente di coppie di chiavi pubblica e privata, per consentiranno le operazioni di firma e verifica che avverranno quando i diversi attori effettueranno transazioni e comunicheranno tra loro.
+		
+		Cryptogen fa riferimento ad un file, \lstinline{crypto-config.yaml}, che contiene le informazioni sulla topologia di rete necessarie ad individuare le entità coinvolte.
+		
+		\lstinputlisting[basicstyle=\scriptsize\ttfamily, language=docker-compose]{chapters/code/hlfvoting/voting/crypto-config.yaml}
+		
+		Posizionandosi nella cartella in cui si trova questo file, il comando da lanciare è il seguente:
+\begin{lstlisting}
+cryptogen generate --config=./crypto-config.yaml
+\end{lstlisting}
+		Al termine gli artefatti generati si troveranno nella cartella \lstinline{crypto-config}.
+		
+	\subsection{Configuration Transaction Generator}
+		Il tool \lstinline{configtxgen} si usa per la creazione di tre categorie di artefatti: 
+		\begin{itemize}
+			\item il \emph{genesis block} dell'orderer,
+			\item le \emph{transazioni di configurazione} dei canali,
+			\item le transazioni che definiscono gli \emph{anchor peer} - una per ogni organizzazione.
+		\end{itemize}
+		 
+		Configtxgen sfrutta il file \lstinline{configtx.yaml}, che si troverà nel percorso indicato dalla variabile \lstinline{FABRIC_CFG_PATH}.
+		
+		Il contenuto del file sarà il seguente:
+		\lstinputlisting[basicstyle=\scriptsize\ttfamily, language=docker-compose]{chapters/code/hlfvoting/voting/configtx.yaml}
+		
+		Nel caso specifico, risulta superfluo definire gli anchor peer in quanto di peer ne sarà presente solamente uno. Ci si limiterà quindi a dare i comandi necessari alla generazione del genesis block e della transazione di configurazione del canale, ovvero:
+		
+\begin{lstlisting}[language=bash]
+export FABRIC_CFG_PATH=$PWD
+
+configtxgen -profile VotingOrdererGenesis \
+			-outputBlock ./voting-genesis.block
+			
+configtxgen -profile VotingChannel \
+			-outputCreateChannelTx ./voting-channel.tx \
+			-channelID votingchannel
+\end{lstlisting}
+
+	\subsection{Avvio della rete}
+		Terminata la creazione degli artefatti necessari all'avvio della rete, si può procedere ad avviare i container docker come configurati nel file \lstinline{docker-compose.yml} riportato di seguito:
+		\lstinputlisting[basicstyle=\scriptsize\ttfamily, language=docker-compose]{chapters/code/hlfvoting/voting/docker-compose.yml}
+		
+		I comandi da impartire sono i seguenti:
+		
+\begin{lstlisting}[language=bash]
+# set useful variables
+ARCH=`uname -m`
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+ARCH=$ARCH docker-compose \
+			-f "${DIR}"/voting/docker-compose.yml up -d
+\end{lstlisting}
+
+		Al termine della creazione dei container Docker è possibile impartire direttamente al peer i comandi per la creazione effettiva del canale e la registrazione del peer stesso nel canale appena creato:
+
+\begin{lstlisting}[language=bash]
+docker exec peer0.Stato.eurasia.com peer channel create \
+			-o orderer.eurasia.com:7050 \
+			-c votingchannel \
+			-f /etc/hyperledger/configtx/voting-channel.tx
+
+docker exec \
+-e "CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/users/Admin@stato.eurasia.com/msp" \
+peer0.Stato.eurasia.com peer channel join -b votingchannel.block
+\end{lstlisting}
 	
 \section{Utilizzo del composer}
 	\subsection{Creare una nuova struttura di rete}
@@ -71,25 +132,25 @@ yo hyperledger-composer:businessnetwork
 \end{lstlisting}
 		Inseriamo ``voting-network" come nome della rete e ``eurasia.voting" come namespace.
 	\subsection{Definire le caratteristiche della rete}
-		La nostra rete si fonda su asset (e.g i raggruppamenti di votanti), partecipanti (e.g votanti e candidati), transazioni come quella che permette ad un utente di votare e query che consentano la consultazione agevole dei dati. Come output del comando precedente, c'è un file di modello (\emph{.cto}) che conterrà le definizioni di ciascuna classe di asset, transazioni, partecipanti ed eventi. Il contenuto di questo file sarà:
-		\lstinputlisting{chapters/code/voting-network/models/eurasia.voting.cto}
+		La nostra rete si fonda su asset (e.g i raggruppamenti di votanti), partecipanti (e.g votanti e candidati), transazioni come quella che permette ad un utente di votare e query che consentano la consultazione agevole dei dati. Come output del comando precedente, c'è un file di modello (\lstinline{.cto}) che conterrà le definizioni di ciascuna classe di asset, transazioni, partecipanti ed eventi. Il contenuto di questo file sarà:
+		\lstinputlisting[language=JavaScript]{chapters/code/voting-network/models/eurasia.voting.cto}
 
 	\subsection{Scrivere la logica delle transazioni in JavaScript}
-		Nel file di modello è stata definita una transazione \emph{Vote}, il cui scopo è quello di creare un nuovo voto ed indirizzarlo al candidato prescelto. Editiamo il file \emph{logic.js} per specificare il comportamento di questa transazione usando il linguaggio JavaScript, prestando attenzione ad utilizzare la sintassi accettata dal Transaction processor di Composer.
-		\lstinputlisting{chapters/code/voting-network/lib/logic.js}
+		Nel file di modello è stata definita una transazione \lstinline{Vote}, il cui scopo è quello di creare un nuovo voto ed indirizzarlo al candidato prescelto. Editiamo il file \lstinline{logic.js} per specificare il comportamento di questa transazione usando il linguaggio JavaScript, prestando attenzione ad utilizzare la sintassi accettata dal Transaction processor di Composer.
+		\lstinputlisting[language=JavaScript]{chapters/code/voting-network/lib/logic.js}
 
 	\subsection{Aggiungere il controllo agli accessi}
-		Creiamo il file \emph{permissions.acl} nella cartella \emph{voting-network}, e al suo interno specifichiamo le regole per il controllo degli accessi in questo modo:
-		\lstinputlisting{chapters/code/voting-network/permissions.acl}
+		Creiamo il file \lstinline{permissions.acl} nella cartella \lstinline{voting-network}, e al suo interno specifichiamo le regole per il controllo degli accessi in questo modo:
+		\lstinputlisting[language=JavaScript]{chapters/code/voting-network/permissions.acl}
 
 	\subsection{Generare il Business network archive}
-		Terminata la definizione delle proprietà della rete è necessario impacchettarla in un file \emph{.bna} che rappresenta un archivio esportabile da cui poter poi effettuare il deploy su un sottostante sistema Fabric.
+		Terminata la definizione delle proprietà della rete è necessario impacchettarla in un file \lstinline{.bna} che rappresenta un archivio esportabile da cui poter poi effettuare il deploy su un sottostante sistema Fabric.
 		Per fare ciò è necessario:
 		\begin{itemize}
-			\item Spostarsi nella cartella \emph{voting-network}
+			\item Spostarsi nella cartella \lstinline{voting-network}
 			\item Lanciare il seguente comando da terminale:
 				\begin{lstlisting}
 composer archive create -t dir -n .
 				\end{lstlisting}
 		\end{itemize}
-		Al termine dell'esecuzione potremo trovare un file chiamato \emph{voting-network@0.0.1.bna} nella cartella da cui abbiamo lanciato il comando.
+		Al termine dell'esecuzione potremo trovare un file chiamato \lstinline{voting-network@0.0.1.bna} nella cartella da cui abbiamo lanciato il comando.

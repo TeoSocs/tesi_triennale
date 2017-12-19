@@ -133,15 +133,15 @@ yo hyperledger-composer:businessnetwork
 		Inseriamo ``voting-network" come nome della rete e ``eurasia.voting" come namespace.
 	\subsection{Definire le caratteristiche della rete}
 		La nostra rete si fonda su asset (e.g i raggruppamenti di votanti), partecipanti (e.g votanti e candidati), transazioni come quella che permette ad un utente di votare e query che consentano la consultazione agevole dei dati. Come output del comando precedente, c'è un file di modello (\lstinline{.cto}) che conterrà le definizioni di ciascuna classe di asset, transazioni, partecipanti ed eventi. Il contenuto di questo file sarà:
-		\lstinputlisting[language=JavaScript]{chapters/code/voting-network/models/eurasia.voting.cto}
+		\lstinputlisting[basicstyle=\scriptsize\ttfamily,language=JavaScript]{chapters/code/voting-network/models/eurasia.voting.cto}
 
 	\subsection{Scrivere la logica delle transazioni in JavaScript}
 		Nel file di modello è stata definita una transazione \lstinline{Vote}, il cui scopo è quello di creare un nuovo voto ed indirizzarlo al candidato prescelto. Editiamo il file \lstinline{logic.js} per specificare il comportamento di questa transazione usando il linguaggio JavaScript, prestando attenzione ad utilizzare la sintassi accettata dal Transaction processor di Composer.
-		\lstinputlisting[language=JavaScript]{chapters/code/voting-network/lib/logic.js}
+		\lstinputlisting[basicstyle=\scriptsize\ttfamily,language=JavaScript]{chapters/code/voting-network/lib/logic.js}
 
 	\subsection{Aggiungere il controllo agli accessi}
 		Creiamo il file \lstinline{permissions.acl} nella cartella \lstinline{voting-network}, e al suo interno specifichiamo le regole per il controllo degli accessi in questo modo:
-		\lstinputlisting[language=JavaScript]{chapters/code/voting-network/permissions.acl}
+		\lstinputlisting[basicstyle=\scriptsize\ttfamily,language=JavaScript]{chapters/code/voting-network/permissions.acl}
 
 	\subsection{Generare il Business network archive}
 		Terminata la definizione delle proprietà della rete è necessario impacchettarla in un file \lstinline{.bna} che rappresenta un archivio esportabile da cui poter poi effettuare il deploy su un sottostante sistema Fabric.

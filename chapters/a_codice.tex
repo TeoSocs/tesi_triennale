@@ -97,7 +97,7 @@ configtxgen -profile VotingChannel \
 \end{lstlisting}
 
 	\subsection{Avvio della rete}
-		Terminata la creazione degli artefatti necessari all'avvio della rete, si può procedere ad avviare i container docker come configurati nel file \lstinline{docker-compose.yml} riportato di seguito:
+		Terminata la creazione degli artefatti necessari all'avvio della rete, si può procedere ad avviare i container docker come configurati nel file \lstinline{docker-compose.yml} riportato di seguito. Si presti particolare attenzione al campo \lstinline{CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE}, variabile di ambiente del peer. Questo deve avere valore \lstinline{folder_defaut} dove \lstinline{folder} è il nome della cartella in cui è salvato il file stesso (in questo caso \lstinline{voting}).
 		\lstinputlisting[basicstyle=\scriptsize\ttfamily, language=docker-compose]{chapters/code/hlfvoting/voting/docker-compose.yml}
 		
 		I comandi da impartire sono i seguenti:
@@ -110,10 +110,12 @@ export FABRIC_START_TIMEOUT=15
 
 ARCH=$ARCH docker-compose \
 			-f "${DIR}"/voting/docker-compose.yml up -d
+			
 \end{lstlisting}
 
 		Al termine della creazione dei container Docker è possibile impartire direttamente al peer i comandi per la creazione effettiva del canale e la registrazione del peer stesso nel canale appena creato:
 
+	
 \begin{lstlisting}[language=bash]
 docker exec peer0.Stato.eurasia.com peer channel create \
 			-o orderer.eurasia.com:7050 \
@@ -123,8 +125,43 @@ docker exec peer0.Stato.eurasia.com peer channel create \
 docker exec \
 -e "CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/users/Admin@Stato.eurasia.com/msp" \
 peer0.Stato.eurasia.com peer channel join -b votingchannel.block
+
 \end{lstlisting}
-	
+
+	\subsection{Creazione della card di amministrazione}
+		Per la gestione della rete tramite Hyperledger Composer è necessario creare ed importare una \emph{card} che contenga le informazioni necessarie ad identificare l'amministratore del sistema Fabric. Per fare ciò, si crea un file \lstinline{/tmp/.connection.json} che contiene le seguenti informazioni:
+\begin{lstlisting}[language=bash]
+{
+"name": "voting-network",
+"type": "hlfv1",
+"orderers": [
+	{ "url" : "grpc://localhost:7050" }
+],
+"ca": { "url": "http://localhost:7054", "name": "ca.Stato.eurasia.com"},
+"peers": [
+	{
+		"requestURL": "grpc://localhost:7051",
+		"eventURL": "grpc://localhost:7053"
+	}
+],
+"channel": "votingchannel",
+"mspID": "StatoMSP",
+"timeout": 300
+}
+
+\end{lstlisting}
+
+		In seguito è necessario localizzare chiave privata e certificato dell'amministratore di rete. Si trovano tra gli artefatti generati da \lstinline{crtyptogen}, in particolare nelle cartelle \lstinline{keystore} e \lstinline{signcerts} della cartella \lstinline{msp}. La chiave privata è un file con un nome che termina con \lstinline{_sk}, mentre il certificato è un file \lstinline{.pem}. Identificati questi file, e salvatone il percorso rispettivamente nelle variabili \lstinline{PRIVATE_KEY} e \lstinline{CERT}, è possibile lanciare i seguenti comandi per creare ed importare la card:
+		
+\begin{lstlisting}[language=bash]
+composer card create -p /tmp/.connection.json -u PeerAdmin \
+			-c "${CERT}" -k "${PRIVATE_KEY}" -r PeerAdmin \
+			-r ChannelAdmin --file /tmp/PeerAdmin@hlfvoting.card
+			
+composer card import --file /tmp/PeerAdmin@hlfvoting.card
+
+\end{lstlisting}
+
 \section{Utilizzo del composer}
 	\subsection{Creare una nuova struttura di rete}
 		Il concetto chiave nell'utilizzo di Hyperledger Composer è la \emph{``business network definition" (BND)}, che definisce il modello dei dati, le regole di accesso e la logica delle transazioni della nostra rete. Per creare la scheletro del progetto si può usare Yeoman generator, installato in precedenza assieme al Composer:
@@ -150,10 +187,43 @@ yo hyperledger-composer:businessnetwork
 		\begin{itemize}
 			\item Spostarsi nella cartella \lstinline{voting-network}
 			\item Lanciare il seguente comando da terminale:
-				\begin{lstlisting}
+\begin{lstlisting}
 composer archive create -t dir -n .
-				\end{lstlisting}
+\end{lstlisting}
 		\end{itemize}
 		Al termine dell'esecuzione potremo trovare un file chiamato \lstinline{voting-network@0.0.1.bna} nella cartella da cui abbiamo lanciato il comando.
 		
 \section{Deploy della rete sul sottosistema Fabric}
+	Per effettuare il deploy della rete creata con Hyperledger Composer su Hyperledger Fabric è necessario che il chaincode di Composer sia installato sul peer. Successivamente il file \lstinline{.bna} creato deve essere inviato al peer e una nuova identità di \emph{amministratore di rete} deve essere creata per gestire la business network. La card di amministrazione appena creata deve essere poi importata, prima di effettuare un test della rete attraverso di essa. 
+	
+	L'installazione del chaincode avviene tramite l'identità di amministrazione di Fabric creata in precedenza, e il comando da impartire è:
+\begin{lstlisting}
+composer runtime install --card PeerAdmin@voting-network \
+						--businessNetworkName voting-network
+
+\end{lstlisting}
+	
+	Collocadosi poi nella cartella contenente il file \lstinline{.bna} lanciamo il comando 
+\begin{lstlisting}
+composer network start --card PeerAdmin@voting-network \
+						--networkAdmin businessNetworkAdmin \
+						--networkAdminEnrollSecret adminpw \
+						--archiveFile voting-network@0.0.1.bna \
+						--file votingnetworkadmin.card
+						
+\end{lstlisting}
+	che avvia la rete e crea l'identità di amministrazione di rete salvandola in \lstinline{votingnetworkadmin.card}.
+	
+	L'importazione della card appena creata si effettua con il già noto comando \lstinline{composer card import}, mentre per testare che il deploy sia andato a buon fine basta affidarsi al comando:
+\begin{lstlisting}
+composer network ping --card businessNetworkAdmin@voting-network
+
+\end{lstlisting}
+	
+	\subsection{Generare un server REST}
+		Hyperledger Composer fornisce un comando per la generazione automatica di una API REST basata sulla rete creata, ovvero
+\begin{lstlisting}
+composer-rest-server
+
+\end{lstlisting}
+	Il comando richiede una card di amministratore di rete, quindi passiamo quella generata in fase di deploy: \lstinline{businessNetworkAdmin@voting-network}. Completando la configurazione guidata, Composer genererà un web server in ascolto sulla porta \lstinline{:3000}, e dotato di una pagina per la visualizzazione e il test all'indirizzo \lstinline{http://localhost:3000/explorer}.

@@ -11,7 +11,7 @@ services:
 
     ports:
       - "7054:7054"
-    command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.Stato.eurasia.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/ced2b24d85ec587355db716b66f4743f3027b15284b5236d0a4dd1e49eee7c88_sk -b businessNetworkAdmin:adminpw -d'
+    command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.Stato.eurasia.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/58e32950d4ee411b0d15c8e1f97f3863575f9bef77fee7979c1525567fd064e0_sk -b businessNetworkAdmin:adminpw -d'
     volumes:
       - ./crypto-config/peerOrganizations/Stato.eurasia.com/ca/:/etc/hyperledger/fabric-ca-server-config
     container_name: ca.Stato.eurasia.com

@@ -41,7 +41,7 @@ cat << EOF > /tmp/.connection.json
 }
 EOF
 
-PRIVATE_KEY="${DIR}"/voting/crypto-config/peerOrganizations/Stato.eurasia.com/users/Admin@Stato.eurasia.com/msp/keystore/85760ae355755dc7b6017d4fc250d294e2f953817c742033f3a7fd70af2af4e8_sk
+PRIVATE_KEY="${DIR}"/voting/crypto-config/peerOrganizations/Stato.eurasia.com/users/Admin@Stato.eurasia.com/msp/keystore/d4d96ae0abb5b66eb9077b2e18383ccaed9b8243b83032635175cfa17a91724b_sk
 CERT="${DIR}"/voting/crypto-config/peerOrganizations/Stato.eurasia.com/users/Admin@Stato.eurasia.com/msp/signcerts/Admin@Stato.eurasia.com-cert.pem
 
 if composer card list -n PeerAdmin@hlfvoting > /dev/null; then

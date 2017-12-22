@@ -2,35 +2,60 @@
 * Access control rules for voting-network
 */
 
-rule Vote {
-	description: "Allow all voters to vote through a transaction"
-	participant: "eurasia.voting.Voter"
-	operation: CREATE, UPDATE
-	resource: "eurasia.voting.Vote"
-	transaction: "eurasia.voting.Voting"
-	action: ALLOW
+rule OminscientClient {
+  description: "Allow client to read system configurations"
+  participant: "eurasia.voting.Client"
+  operation: READ
+  resource: "**"
+  action: ALLOW
 }
 
-rule SystemACL {
-	description:  "System ACL to permit all access"
-	participant: "ANY"
-	operation: ALL
-	resource: "org.hyperledger.composer.system.**"
-	action: ALLOW
+rule Vote {
+  description: "Allow all voters to perform a Voting transaction"
+  participant: "eurasia.voting.Client"
+  operation: ALL
+  resource: "**"
+  transaction: "eurasia.voting.Voting"
+  action: ALLOW
+}
+
+rule CreateVoting {
+  description: "Allow all voters to submit a Voting transaction"
+  participant: "eurasia.voting.Client"
+  operation: CREATE
+  resource: "eurasia.voting.Voting"
+  action: ALLOW
+}
+
+rule Change {
+  description: "Allow all voters to perform a Change transaction"
+  participant: "eurasia.voting.Client"
+  operation: ALL
+  resource: "**"
+  transaction: "eurasia.voting.Change"
+  action: ALLOW
+}
+
+rule CreateChange {
+  description: "Allow all voters submit a Change transaction"
+  participant: "eurasia.voting.Client"
+  operation: CREATE
+  resource: "eurasia.voting.Change"
+  action: ALLOW
 }
 
 rule NetworkAdminUser {
-	description: "Grant business network administrators full access to user resources"
-	participant: "org.hyperledger.composer.system.NetworkAdmin"
-	operation: ALL
-	resource: "**"
-	action: ALLOW
+  description: "Grant business network administrators full access to user resources"
+  participant: "org.hyperledger.composer.system.NetworkAdmin"
+  operation: ALL
+  resource: "**"
+  action: ALLOW
 }
 
 rule NetworkAdminSystem {
-	description: "Grant business network administrators full access to system resources"
-	participant: "org.hyperledger.composer.system.NetworkAdmin"
-	operation: ALL
-	resource: "org.hyperledger.composer.system.**"
-	action: ALLOW
+  description: "Grant business network administrators full access to system resources"
+  participant: "org.hyperledger.composer.system.NetworkAdmin"
+  operation: ALL
+  resource: "org.hyperledger.composer.system.**"
+  action: ALLOW
 }

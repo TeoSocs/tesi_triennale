@@ -7,7 +7,7 @@ Alla luce di quanto scritto finora, una possibile applicazione della tecnologia 
 			\begin{figure}[ht]
 				\centering
 				\includegraphics[width=\textwidth]{hyperledger-architecture.jpg}
-				\caption{L'architettura di hyperledger come descritta nel whitepaper}
+				\caption[L'architettura di hyperledger come descritta nel whitepaper]{L'architettura di hyperledger come descritta nel whitepaper.}
 				\label{fig:hyperledger_architecture}
 			\end{figure}
 			\begin{itemize}
@@ -18,7 +18,7 @@ Alla luce di quanto scritto finora, una possibile applicazione della tecnologia 
 				\item \textbf{Organizzazioni}: rappresentano ciascuna entità distinta che possiede un certificato univoco per la rete. I nodi come i peer o i client devono essere legati ad un'organizzazione per poter essere riconosciuti e autenticati;
 				\item \textbf{Channel}: è l'overlay della blockchain privata di Hyperledger. Ciascun canale ha un registro specifico, condiviso tra i peer registrati al canale, e ciascun ente coinvolto nella transazione deve essere autenticato ad uno specifico channel affinché questa abbia luogo;
 				\item \textbf{State}: abbreviazione per ``State Database", è il database in cui è salvato lo stato attuale del sistema per effettuare query sul registro in maniera efficiente. È modellato come un database chiave/valore con versionamento. Può essere completamente ricostruito dalla storia delle transazioni salvata in blockchain, il che ne garantisce il controllo sull'affidabilità;
-				\item \textbf{Chaincode}: è il nome dato ai programmi salvati nella blockchain di Hyperledger. Sono invocati dalle transazioni, e possono inizializzare componenti nello state o modificarli. La loro esecuzione avviene in un container Docker isolato per garantirne la riservatezza. Incapsula la componente di business logic del sistema, ha corrispondenza diretta con quelli che in altri sistemi basati su blockchain vengono chiamati \emph{smart contract}.
+				\item \textbf{Chaincode}: è il nome dato ai programmi salvati nella blockchain di Hyperledger. Sono invocati dalle transazioni, e possono inizializzare componenti nello state o modificarli. La loro esecuzione avviene in un container Docker isolato per garantirne la riservatezza. Incapsula la componente di business logic del sistema, ha corrispondenza diretta con quelli che in altri sistemi basati su blockchain vengono chiamati \emph{smart contract};
 				\item \textbf{Transazioni}: sono la rappresentazione di ogni azione effettuata sul registro. Possono essere \emph{deploy transactions} che creano nuovo chaincode e lo ``installano" in un canale oppure \emph{invoke transactions} che invocano una funzione presente in un chaincode installato per effettuare letture o modifiche al ledger. Ciascuna transazione deve essere approvata e gestita dall'orderer, e viene registrata nella blockchain per la futura tracciabilità.
 			\end{itemize}
 		
@@ -26,7 +26,7 @@ Alla luce di quanto scritto finora, una possibile applicazione della tecnologia 
 		\begin{figure}[!ht]
 			\centering
 			\includegraphics[width=\textwidth]{composer_screenshot.png}
-			\caption{Schermate di Hyperledger Composer Playground}
+			\caption[Schermate di Hyperledger Composer Playground]{Schermate di Hyperledger Composer Playground.}
 			\label{fig:composer_screenshot}
 		\end{figure}
 		Hyperledger Composer è una collezione di strumenti che facilitano lo sviluppo di reti blockchain aziendali, favorendo la collaborazione di differenti gruppi specializzati per la creazione della rete e lo sviluppo delle applicazioni. Fornisce un'astrazione orientata ai processi aziendali, così come applicazioni di esempio e tool di test. Permette di:
@@ -39,23 +39,25 @@ Alla luce di quanto scritto finora, una possibile applicazione della tecnologia 
 					\item controllo degli accessi;
 				\end{itemize}
 			\item Generare API REST e JavaScript associate alla rete modellata che possono essere usate per interagire con le applicazioni, integrare sistemi preesistenti o analizzare la rete blockchain;
-			\item Sviluppare e testare attraverso l'applicazione web Composer Playground senza dover installare nulla, potendo effettuare il deploy su di un sistema blockchain in seguito.
+			\item Sviluppare e testare attraverso l'applicazione web Composer Playground senza dover installare nulla, potendo effettuare il deployment su di un sistema blockchain in seguito.
 		\end{itemize} 
 		
 	\subsection{Ring signature}
-		Una ring signature, o firma ad anello, è un tipo di firma digitale legata ad un gruppo di utenti ciascuno in possesso di una chiave. Questo tipo di firma permette di verificare che l'autore appartiene a quel dato gruppo di utenti rendendo però computazionalmente infattibile determinare quale specifico utente esso sia. Riporto di seguito (tradotta) una possibile definizione formale \cite{ring_signature}: \\
-		Si supponga che un gruppo di entità possieda le coppie di chiavi pubbliche/private $(P_1, S_1), (P_2, S_2), ..., (P_n, S_n)$. Il soggetto \emph{i} può apporre una ring signature $\sigma$ sul messaggio \emph{m} avendo in input $(m, S_i, P_1, ..., P_n)$. Chiunque può verificare la validità della firma dati $\sigma, m$ e le chiavi pubbliche coinvolte $P_1, ..., P_n$.
+		Una ring signature, o firma ad anello, è un tipo di firma digitale legata ad un gruppo di utenti ciascuno in possesso di una chiave. Questo tipo di firma permette di verificare che l'autore appartiene a quel dato gruppo di utenti rendendo però computazionalmente infattibile determinare quale specifico utente esso sia. Riporto di seguito (tradotta) una possibile definizione formale \cite{ring_signature}: 
+		\begin{displayquote}
+			Si supponga che un gruppo di entità possieda le coppie di chiavi pubbliche/private $(P_1, S_1), (P_2, S_2), ..., (P_n, S_n)$. Il soggetto \emph{i} può apporre una ring signature $\sigma$ sul messaggio \emph{m} avendo in input $(m, S_i, P_1, ..., P_n)$. Chiunque può verificare la validità della firma dati $\sigma, m$ e le chiavi pubbliche coinvolte $P_1, ..., P_n$.
+		\end{displayquote}
 		\begin{figure}[ht]
 			\centering
 			\includegraphics[width=0.6\textwidth]{ring_signature.png}
-			\caption{Ring signature}
+			\caption[Ring Signature]{Ring Signature.}
 			\label{fig:ring_signature}
 		\end{figure}
-		Una \emph{Linkable} ring signature (LRS) permette inoltre di determinare se due ring signature sono state computate dallo stesso membro del gruppo, pur senza poter risalire alla sua identità. \\
-		La maggior parte degli algoritmi per la costruzione di Ring Signature ha complessità $O(n)$, anche se ne esistono di più efficienti come quello proposto da Tsang e Wei in \emph{Short Linkable Ring Signatures for E-voting, E-cash and Attestation}\cite{SLRS}, basato su un lavoro di Dodis del 2004.
+		Una \emph{Linkable} Ring Signature (LRS) permette inoltre di determinare se due ring signature sono state computate dallo stesso membro del gruppo, pur senza poter risalire alla sua identità. \\
+		La maggior parte degli algoritmi per la costruzione di Ring Signature ha complessità $O(n)$, anche se ne esistono di più efficienti come quello proposto da Tsang e Wei in \emph{Short Linkable Ring Signatures for E-voting, E-cash and Attestation}\cite{SLRS}, basato su un lavoro di Dodis del 2004 \cite{dodis}.
 
 \section{Architettura}
-	Il sistema si articola in due blockchain separate, la blockchain di firma e la blockchain di voto (da ora rispettivamente Signature chain o SC e Vote chain o VC). Le due chain sono isolate, per garantire la non collegabilità del voto al votante in fase di scrutinio.
+	Il sistema si articola in due blockchain separate, la blockchain di firma e la blockchain di voto (da ora rispettivamente Signature Chain, o SC, e Vote Chain, o VC). Le due chain sono isolate, per garantire la non collegabilità del voto al votante in fase di scrutinio.
 	Le due chain hanno scopi diversi: SC assicura che il voto avvenga in maniera controllata e abilita al voto il client, inoltre contiene le informazioni per dividere in raggruppamenti i votanti similmente a quanto avviene con le sezioni elettorali; VC raccoglie i voti e li registra per effettuare poi il conteggio, ma deve garantire l’anonimato del votante.
 	
 	\subsection{Preparazione}
@@ -63,23 +65,23 @@ Alla luce di quanto scritto finora, una possibile applicazione della tecnologia 
 		\begin{itemize}
 			\item L'elenco dei votanti;
 			\item L'elenco dei peer;
-			\item L'elenco degli indirizzi dei candidati per la Vote chain;
+			\item L'elenco degli indirizzi dei candidati per la Vote Chain;
 			\item L'elenco dei programmi client verificati.
 		\end{itemize}
-		\subsubsection{Inizializzazione della Signature chain}
+		\subsubsection{Inizializzazione della Signature Chain}
 			La SC viene predisposta con il chaincode che permette al client di interrogare la chain per conoscere le chiavi pubbliche dei votanti inseriti nello stesso raggruppamento, registrando contemporaneamente la propria firma. I dati sui raggruppamenti dei votanti sono inseriti nella SC. Questa dovrà essere accessibile solamente ai peer deputati al controllo della votazione, a causa della riservatezza delle informazioni sui raggruppamenti.
-		\subsubsection{Inizializzazione della Vote chain}
+		\subsubsection{Inizializzazione della Vote Chain}
 			La VC contiene inizialmente delle transazioni che registrano l'associazione di ogni indirizzo numerico ad un nome intelligibile del candidato corrispondente, i saldi dei voti dei candidati inizializzati a 0 e il chaincode necessario al client per incrementare di 1 il saldo del candidato scelto. Un altro chaincode utile è quello che permette ai peer di ricevere il conteggio finale e quindi l'esito della votazione, così come il chaincode che permette ad un servizio web di interrogare la blockchain e rendere pubblici i dati in essa contenuti per permettere al votante la verifica del voto espresso.
 	
 	\subsection{Workflow di una votazione}
 		\begin{figure}[ht]
 			\centering
 			\includegraphics[width=\textwidth]{voting_workflow.png}
-			\caption{Workflow della votazione}
+			\caption[Workflow della votazione]{Workflow della votazione.}
 			\label{fig:voting_workflow}
 		\end{figure}
 		Il diagramma in \hyperref[fig:voting_workflow]{figura \ref*{fig:voting_workflow}} illustra il workflow tipico di una votazione.
-		\subsubsection{Signature chain: Firma del registro votanti}
+		\subsubsection{Signature Chain: Firma del registro votanti}
 			Il client autentica l'utente attraverso un \hyperref[subsec:personalita_voto]{sign-on affidabile}. I controlli di accesso possono essere rinforzati o meno da \hyperref[subsec:liberta_voto]{altri passaggi} affidati a sistemi di intelligenza artificiale o al controllo di un operatore. A utente autenticato, il client invoca il chaincode di query su SC ed ottiene l'elenco delle chiavi pubbliche del suo raggruppamento. Questa richiesta viene registrata in blockchain, per assicurarsi che lo stesso utente non possa ripetere la procedura di voto due volte.
 			\begin{figure}[ht]
 				\centering
@@ -88,11 +90,11 @@ Alla luce di quanto scritto finora, una possibile applicazione della tecnologia 
 				\hspace{5mm}
 				\subfigure[Firma di SC]
 					{\includegraphics[width=0.45\textwidth]{firma_e-voting.png}}
-				\caption{Firma del registro votanti}
+				\caption[Firma del registro votanti]{Firma del registro votanti.}
 				\label{fig:firma_voto}
 			\end{figure}
 			
-		\subsubsection{Vote chain: In cabina elettorale}
+		\subsubsection{Vote Chain: In cabina elettorale}
 			Il client si trova ora in possesso delle chiavi pubbliche della sua sezione. In locale permette al votante di esprimere la propria preferenza di voto e richiede la transazione corrispondente nella VC firmandola con la ring signature del proprio raggruppamento.
 			La votazione è ora conclusa.
 			\begin{figure}[ht]
@@ -102,7 +104,7 @@ Alla luce di quanto scritto finora, una possibile applicazione della tecnologia 
 				\hspace{5mm}
 				\subfigure[Voto in VC]
 					{\includegraphics[width=0.45\textwidth]{voto_elettronico.png}}
-				\caption{Votazione}
+				\caption[Votazione]{Votazione.}
 				\label{fig:votazione}
 			\end{figure}
 			
@@ -118,7 +120,7 @@ Alla luce di quanto scritto finora, una possibile applicazione della tecnologia 
 			La personalità del voto, intesa come la necessità di esercitarlo di persona e non tramite terzi, è delegata in questa proposta al servizio di sign-on. Al momento attuale, è possibile fare affidamento su diversi sistemi di autenticazione: per il corretto funzionamento del sistema è previsto che ogni utente abbia una coppia di chiavi pubblica e privata distribuita precedentemente, sotto verifica di un operatore. Ad esempio, è possibile distribuire queste chiavi contestualmente alla consegna della tessera elettorale. La natura certificata di queste chiavi le rende ideali come metodo di autenticazione ma è possibile aggiungere ulteriori controlli come una verifica tramite dati biometrici.
 		
 		\subsubsection{Eguaglianza}
-			L'eguaglianza del voto consiste nell'avere ogni voto lo stesso valore di tutti gli altri. Si articola nell'impedire, in particolare, il voto plurimo e il voto multiplo. Nel sistema proposto, il voto plurimo è scongiurato dal codice del chaincode della Vote chain, il quale permette solo incrementi unitari al saldo dei candidati. Uno scenario di voto multiplo è invece controllato dalla Signature chain e dalla struttura del client: è infatti indispensabile che la procedura di voto sia strettamente successiva alla procedura di firma in SC, e non invocabile in maniera indipendente. In tal modo è possibile garantire che una stessa persona non reiteri l'esecuzione del chaincode di voto. Pur ammettendo il caso in cui un attaccante riesca a violare il client, questo potrà reiterare voti firmati dalla stessa ring signature: un controllo automatico può facilmente accorgersi della non coerenza del numero di votanti nel raggruppamento e il numero di voti espressi dal raggruppamento, invalidando di fatto le transazioni ma mantenendo confinato l'evento disastroso: si possono applicare le procedure invocate attualmente qualora venissero riscontrate irregolarità che compromettano la validità dei voti di una sezione elettorale.
+			L'eguaglianza del voto consiste nell'avere ogni voto lo stesso valore di tutti gli altri. Si articola nell'impedire, in particolare, il voto plurimo e il voto multiplo. Nel sistema proposto, il voto plurimo è scongiurato dal codice del chaincode della Vote Chain, il quale permette solo incrementi unitari al saldo dei candidati. Uno scenario di voto multiplo è invece controllato dalla Signature Chain e dalla struttura del client: è infatti indispensabile che la procedura di voto sia strettamente successiva alla procedura di firma in SC, e non invocabile in maniera indipendente. In tal modo è possibile garantire che una stessa persona non reiteri l'esecuzione del chaincode di voto. Pur ammettendo il caso in cui un attaccante riesca a violare il client, questo potrà reiterare voti firmati dalla stessa ring signature: un controllo automatico può facilmente accorgersi della non coerenza del numero di votanti nel raggruppamento e il numero di voti espressi dal raggruppamento, invalidando di fatto le transazioni ma mantenendo confinato l'evento disastroso: si possono applicare le procedure invocate attualmente qualora venissero riscontrate irregolarità che compromettano la validità dei voti di una sezione elettorale.
 		
 		\subsubsection{Libertà}\label{subsec:liberta_voto}
 			La libertà del voto viene garantita dal negare la possibilità di voto qualora il votante fosse stato costretto con mezzi illeciti a esprimere una certa preferenza. Nel sistema di voto attuale è garantita dal controllo degli operatori di seggio. Nei sistemi di voto remoto l'argomento risulta spinoso: è infatti estremamente difficile stabilire una situazione di particolare pressione dell'elettore, o l'interferenza di esterni. Nel caso di voto elettronico, forzare il client ufficiale a poter essere installato solo su dispositivi muniti di telecamera frontale potrebbe risolvere il problema. Il controllo può essere svolto da appositi addetti eventualmente aiutati da un'intelligenza artificiale simile a quella utilizzata da Unilever \cite{ai_unilever} per i colloqui di lavoro. Questo non scongiura ogni possibile manipolazione, ma va evidenziato che il controllo sul sistema proposto non lo rende meno sicuro del sistema già in essere: permette anzi un livello di garanzia estremamente più alto di quello dei sistemi di voto per corrispondenza, già accettati in Italia in caso di votanti dall'estero e adottato in maniera diffusa in Svizzera.

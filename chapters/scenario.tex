@@ -5,7 +5,7 @@ In questo capitolo si vuole presentare il quadro attuale della situazione attorn
     \begin{figure}[ht]
         \centering
         \includegraphics[width=\textwidth]{bitcoin-price.png}
-        \caption{Valore di mercato di bitcoin}
+        \caption[Valore di mercato di Bitcoin]{Valore di mercato di Bitcoin.}
         \label{fig:bitcoin_price}
     \end{figure}
     Dietro a Bitcoin si sta sviluppando un'enorme quantità di applicazioni e sperimentazioni che riguardano blockchain, alcune delle quali hanno raggiunto ormai una certa stabilità. Molte di queste riguardano l'ambito economico e prendono il nome di \emph{criptomonete}, altre invece si basano sulla blockchain per costruire sistemi più complessi.
@@ -29,7 +29,7 @@ In questo capitolo si vuole presentare il quadro attuale della situazione attorn
             \item \textbf{Quorum}: creata da JPMorgan, Quorum è di fatto un fork della blockchain pubblica di Ethereum che usa un algoritmo di consenso basato su votazione per fornire una piattaforma orientata all'uso enterprise di smart contract. La privacy dei dati è raggiunta nella rete di Quorum esponendoli sulla base delle necessità effettive del nodo;
             \item \textbf{OpenTimestamps}: servizio che mira a diventare uno standard per il timestamping via blockchain. Concatena hash crittografici dei dati di cui gli utenti richiedono il timestamping e ne registra il risultato in una transazione bitcoin, rendendolo quindi pubblico e immutabile;
             \item \textbf{Namecoin}: servizio basato su blockchain che si propone di potenziare decentralizzazione, sicurezza, resistenza alla censura, privacy e velocità di componenti alcune dell'infrastruttura di Internet come i DNS;
-            \item \textbf{Everledger}: una nicchia promettente riguarda i sistemi ad-hoc con utilizzo ben preciso. Ne è un esempio Everledger, che si propone di tracciare e gestire storia e possesso di beni di lusso come i diamanti; \emph{Filament} per reti wireless sicure in IoT;
+            \item \textbf{Everledger}: una nicchia promettente riguarda i sistemi ad-hoc con utilizzo ben preciso. Ne è un esempio Everledger, che si propone di tracciare e gestire storia e possesso di beni di lusso come i diamanti;
             \item \textbf{Filament}: la natura distribuita di blockchain la rende ideale per implementazione di applicazioni IoT che richiedano un adeguato livello di sicurezza. Lavora in questo ambito Filament, startup nata recentemente, nel 2017, che si pone come obiettivo la gestione di reti wireless sicure in ambito IoT;
             \item \textbf{Blockchain a livello enterprise}: per la creazione di applicazioni aziendali basate su blockchain è necessario appoggiarsi ad opportuni framework. Questi devono rispettare requisiti imprescindibili per l'ambito business, tra cui fornire opportuna documentazione, supporto tecnico e rendere agevoli le operazioni di testing, integrazione, controlli di sicurezza. Esempi di piattaforme simili in sviluppo sono Hyperledger, Bloq, Chain, sebbene ciascuno di questi soffra al momento di poca stabilità dovuta alla loro ancora recente nascita;
             \item \textbf{Hawk}: è un sistema di smart contract che affronta il problema della poca privacy nelle transazioni delle blockchain più diffuse. Hawk fornisce uno strumento per la generazione di un ``protocollo crittografico efficiente in cui le controparti del contratto interagiscono con la blockchain usando primitive crittografiche come gli algoritmi \emph{zero-knowledge proof}." \cite{hawk};
@@ -46,7 +46,7 @@ In questo capitolo si vuole presentare il quadro attuale della situazione attorn
         Il problema della scalabilità dei sistemi blockchain è molto dipendente dall'algoritmo di consenso implementato. Quelli ad oggi adottati su larga scala sono basati su proof-of-work, che paradossalmente basa la sua sicurezza sulla sua assoluta inefficienza. Inoltre, la storia di Bitcoin mostra come sia inefficace nel mantenere equilibrata la competizione tra i miner, portando un accentramento delle capacità di gestione della rete nelle mani di server farm dedicate. Ethereum migliora questo aspetto attraverso un algoritmo simile, ma in cui ha meno vantaggi investire in hardware dedicato. Tuttavia la ricerca ad un algoritmo che permetta l'effettiva ``democratizzazione'' del mining è ancora apertissima, accompagnata da quella su problemi crittografici meno parallelizzabili su cui basare ulteriori varianti degli algoritmi proof-of-work.
         
     \subsection{Standardizzazione e interoperabilità}
-        blockchain non è ancora una tecnologia sufficientemente matura da permettere una piena ed agevole integrazione con i sistemi esistenti. Emettere degli standard adeguati aiuterà a migliorare l'integrazione dei sistemi blockchain tanto fra di loro quanto con l'infrastruttura circostante. \\
+        Blockchain non è ancora una tecnologia sufficientemente matura da permettere una piena ed agevole integrazione con i sistemi esistenti. Emettere degli standard adeguati aiuterà a migliorare l'integrazione dei sistemi blockchain tanto fra di loro quanto con l'infrastruttura circostante. \\
         Dal punto di vista applicativo lo sviluppo di framework come Hyperledger aiuta a creare una base solida e delle sottostrutture chiare per la progettazione di reti distribuite interoperanti, e maggiore sarà il numero di utenti che abbracceranno soluzioni di questo tipo minori saranno le differenze critiche tra sistema e sistema permettendo adattamenti più agevoli. D'altra parte, è necessario che tali piattaforme si sviluppino e allarghino la gamma di scenari modellabili venendo incontro alle necessità di gruppi di utenti sempre più grandi ed eterogenei. \\
         Dal punto di vista normativo invece si sono visti passi in avanti con la creazione nel 2016 del comitato tecnico ISO/TC 307 ``blockchain and distributed ledger technologies", che sta sviluppando il primo standard ISO ufficiale sull'argomento.
 
@@ -62,7 +62,7 @@ In questo capitolo si vuole presentare il quadro attuale della situazione attorn
                 \begin{figure}
                     \centering
                     \includegraphics[width=0.8\textwidth]{coinswap.jpg}
-                    \caption{Transazione CoinSwap}
+                    \caption[Transazione CoinSwap]{Transazione CoinSwap.}
                     \label{fig:coinswap}
                 \end{figure}
             \end{itemize}
@@ -83,14 +83,14 @@ In questo capitolo si vuole presentare il quadro attuale della situazione attorn
         	In quanto sistema distribuito e decentralizzato, blockchain si propone come tassello fondamentale nella creazione di reti IoT sicure e certificate. Lo use case preso ad esempio da Hyperledger Sawtooth per illustrare sue potenzialità è proprio l'applicazione di blockchain ad una rete di sensori che traccino e certifichino la catena di produzione di beni deperibili come il pesce. Non è difficile immaginare molteplici applicazioni analoghe, in particolare riguardanti la certificazione di strumenti di misurazione di precisione o apparecchi di controllo quali i cronotachigrafi;
         	
         \subsubsection{Digital Identity}
-        	La creazione di un sistema di identità digitale è già stata presentata come \emph{work in progress} da parte di fondazioni come la Sovrin. Se una gestione completamente autonoma delle propria identità digitale è un progetto a lungo termine, potrebbe non esserlo invece l'applicazione di blockchain a sistemi già in essere come lo SPID. Il livello di sicurezza garantito sarebbe sufficiente ad integrare questi sistemi con una serie di funzionalità interessanti, tra cui ad esempio un sistema di firma digitale estremamente più \emph{personale} e flessibile rispetto a quello di cui si può disporre oggi.
+        	La creazione di un sistema di identità digitale è già stata presentata come \emph{work in progress} da parte di fondazioni come la Sovrin. Se una gestione completamente autonoma della propria identità digitale è un progetto a lungo termine, potrebbe non esserlo invece l'applicazione di blockchain a sistemi già in essere come lo SPID. Il livello di sicurezza garantito sarebbe sufficiente ad integrare questi sistemi con una serie di funzionalità interessanti, tra cui ad esempio un sistema di firma digitale estremamente più \emph{personale} e flessibile rispetto a quello di cui si può disporre oggi.
         	
         	La firma digitale richiede infatti una serie di precauzioni considerevole. Immaginiamo a titolo esemplificativo di firmare un documento a valore legale utilizzando un qualsiasi sistema a chiave asimmetrica: ci si aspetta che questo documento possa rimanere disponibile per anni, e che la firma di ciascuno non sia usa e getta ma venga riutilizzata per firmare ogni documento. Ora, violare questa firma comporterebbe il decadimento della validità di tutti i documenti passati, presenti e futuri marcati attraverso di essa dal momento che questi potrebbero essere retrodatati da parte del ladro. Potrebbe non essere sufficiente nemmeno affidarsi a servizi di timestamping: se fosse proprio la chiave privata del server di timestamping ad essere trafugata, tutti i documenti precedenti alla compromissione della firma sarebbero completamente invalidati.
         	
         	\begin{figure}[ht]
         		\centering
         		\includegraphics[width=\textwidth]{key-1.png}
-        		\caption[Furto della chiave privata]{Furto della chiave privata \cite{ametrano_signature}}
+        		\caption[Furto della chiave privata]{Furto della chiave privata. \cite{ametrano_signature}}
         		\label{fig:key-1}
         	\end{figure}
         	

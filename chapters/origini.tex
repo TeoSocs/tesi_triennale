@@ -5,7 +5,7 @@
 		\begin{figure}[ht]
 			\centering
 			\includegraphics[width=\textwidth]{double_spending_problem.jpg}
-			\caption[Double-spending problem]{Double-spending problem - \cite{understanding_bitcoin}, p. 11}
+			\caption[Double-spending problem]{Double-spending problem. \cite{understanding_bitcoin}}
 			\label{fig:double-spending_img}
 		\end{figure}
 
@@ -13,7 +13,7 @@
 		\begin{figure}[ht]
 			\centering
 			\includegraphics[width=\textwidth]{central_counterparty.png}
-			\caption[Central counterparty holding a centralized database]{Central counterparty holding a centralized database - \cite{understanding_bitcoin}, p. 12}
+			\caption[Central counterparty holding a centralized database]{Central counterparty holding a centralized database. \cite{understanding_bitcoin}}
 			\label{fig:central_counterparty_img}
 		\end{figure}
 		La soluzione al problema del \emph{double-spending} finora adottata è stata l'affidamento delle transazioni economiche digitali ad un ente esterno fidato (e.g. i sistemi e-banking) che garantisse le identità degli utenti e potesse verificarne l'effettiva disponibilità economica. È il database centrale che traccia la storia delle transazioni effettuate da ogni utente e prima di autorizzare la successiva verifica che non ci siano incongruenze. \\
@@ -25,24 +25,27 @@
 
 		\subsubsection{Teorema CAP}\label{sec:teorema_CAP}
 			Altrimenti noto come Teorema di Brewer, è stato proposto da Eric Brewer nel 1998 e dimostrato poi da Seth Gilbert e Nancy Lynch nel 2002 \cite{CAP}. L'enunciato è il seguente:
-			\paragraph{Thm:} Un qualsiasi sistema distribuito non può garantire simultaneamente le tre seguenti proprietà:
-			\begin{itemize}
-				\item \textbf{Coerenza (Consistency)} è la proprietà che assicura che tutti i nodi del sistema posseggono la stessa copia aggiornata dei dati;
-				\item \textbf{Disponibilità (Availability)} indica che il sistema è attivo, accessibile e pronto a ricevere input e a fornire output corretti in un tempo conforme alle attese;
-				\item \textbf{Tolleranza di partizione (Partition tolerance)} assicura che anche nel caso un gruppo di nodi crollasse per qualche motivo, il sistema continuerebbe ad operare correttamente.
-			\end{itemize}
+			\begin{displayquote}
+				Un qualsiasi sistema distribuito non può garantire simultaneamente le tre seguenti proprietà:
+				\begin{itemize}
+					\item \textbf{Coerenza (Consistency)} è la proprietà che assicura che tutti i nodi del sistema posseggono la stessa copia aggiornata dei dati;
+					\item \textbf{Disponibilità (Availability)} indica che il sistema è attivo, accessibile e pronto a ricevere input e a fornire output corretti in un tempo conforme alle attese;
+					\item \textbf{Tolleranza di partizione (Partition tolerance)} assicura che anche nel caso un gruppo di nodi crollasse per qualche motivo, il sistema continuerebbe ad operare correttamente.
+				\end{itemize}
+			\end{displayquote}
 			\begin{figure}[ht]
 				\centering
 				\includegraphics[width=0.7\textwidth]{cap.png}
-				\caption[Teorema CAP]{Teorema CAP \cite{cap_diagram}}
+				\caption[Teorema CAP]{Teorema CAP. \cite{cap_diagram}}
 				\label{fig:cap}
 			\end{figure}
 
 		\subsubsection{Problema dei Generali Bizantini}
 			Si tratta di un dilemma posto da Leslie Lamport (con Marshall Pease e Robert Shostak) nel 1982 \cite{BGP}: 
-			\paragraph{}
-			Un gruppo di generali a capo di diverse sezioni dell'esercito bizantino sta pianificando di attaccare una città. L'unico modo a loro disposizione per comunicare è mediante messaggeri, e \emph{hanno bisogno di concordare il momento dell'attacco per vincere}: raggiungendo un accordo l'attacco riuscirà e la città sarà conquistata, mentre non riuscire a determinare un momento univoco per agire porterebbe ad un attacco frammentato e fallimentare. Potrebbero esserci traditori tra di loro, i quali comunicherebbero messaggi discordanti per minare la riuscita dell'operazione: è quindi necessario stabilire un sistema affidabile per raggiungere il consenso sulle tempistiche di attacco. È facile l'analogia con un sistema informatico distribuito in cui i generali siano rappresentati dai nodi e i messaggeri come un'infrastruttura di rete. \\
-			Una possibile soluzione al problema dei generali bizantini in un sistema sincrono è stata proposta da Miguel Castro e Barbara Liskov e pubblicata in \emph{Practical Byzantine Fault Tolerance} \cite{PBFT}. \\
+			\begin{displayquote}
+				Un gruppo di generali a capo di diverse sezioni dell'esercito bizantino sta pianificando di attaccare una città. L'unico modo a loro disposizione per comunicare è mediante messaggeri, e \emph{hanno bisogno di concordare il momento dell'attacco per vincere}: raggiungendo un accordo l'attacco riuscirà e la città sarà conquistata, mentre non riuscire a determinare un momento univoco per agire porterebbe ad un attacco frammentato e fallimentare. Potrebbero esserci traditori tra di loro, i quali comunicherebbero messaggi discordanti per minare la riuscita dell'operazione: è quindi necessario stabilire un sistema affidabile per raggiungere il consenso sulle tempistiche di attacco. 
+			\end{displayquote}
+			È facile l'analogia con un sistema informatico distribuito in cui i generali siano rappresentati dai nodi e i messaggeri come un'infrastruttura di rete. Una possibile soluzione al problema dei generali bizantini in un sistema sincrono è stata proposta da Miguel Castro e Barbara Liskov e pubblicata in \emph{Practical Byzantine Fault Tolerance} \cite{PBFT}. \\
 			Bitcoin è la prima tecnologia ad implementarne una soluzione pratica basata su Proof-of-Work.
 
 		\subsubsection{Algoritmi di consenso}
@@ -57,14 +60,14 @@
 	Il sistema Bitcoin si basa, in estrema sintesi, su di un registro distribuito di transazioni. Chiunque voglia usufruire del sistema per ricevere pagamenti o effettuarli deve possedere una coppia di chiavi pubblica e privata. La chiave privata serve a firmare le nuove transazioni, mentre la chiave pubblica viene diffusa e utilizzata per verificare la firma apposta sul pagamento. L'utente è identificato all'interno del registro tramite un hash della sua chiave pubblica, ovvero il suo \emph{indirizzo Bitcoin}. \\
 	Nella proposta di transazione, l'utente deve dichiarare:
 	\begin{itemize}
-		\item l'indirizzo del destinatario;
-		\item l'importo da trasferire;
-		\item il riferimento alla transazione tramite cui ha ottenuto il possesso dei bitcoin che sta spendendo.
+		\item L'indirizzo del destinatario;
+		\item L'importo da trasferire;
+		\item Il riferimento alla transazione tramite cui ha ottenuto il possesso dei bitcoin che sta spendendo.
 	\end{itemize}
 	\begin{figure}[ht]
 		\centering
 		\includegraphics[width=\textwidth]{bitcoin_transaction.png}
-		\caption{Struttura di una transazione}
+		\caption[Struttura di una transazione]{Struttura di una transazione.}
 		\label{fig:bitcoin_transaction}
 	\end{figure}
 	Deve inoltre fornire prova della sua identità firmando la proposta tramite la sua chiave privata.
@@ -74,7 +77,7 @@
 		\begin{figure}[ht]
 			\centering
 			\includegraphics[width=\textwidth]{bitcoin-block-chain.png}
-			\caption{Struttura a blocchi del registro}
+			\caption[Struttura a blocchi del registro]{Struttura a blocchi del registro.}
 			\label{fig:bitcoin_chain}
 		\end{figure}
 		\subsubsection{Consenso tramite proof-of-work}
@@ -83,7 +86,7 @@
 			\begin{figure}[ht]
 				\centering
 				\includegraphics[width=\textwidth]{difficulty.png}
-				\caption{Difficoltà di creazione di un nuovo blocco}
+				\caption[Difficoltà di creazione di un nuovo blocco]{Difficoltà di creazione di un nuovo blocco.}
 				\label{fig:bitcoin_difficulty}
 			\end{figure}
 			Questo \emph{sforzo} necessario da parte dei miner fa sì che un nodo malevolo che volesse creare nuova catena alterata dovrebbe ricalcolare la soluzione a tutti i problemi matematici relativi a tutti i blocchi successivi a quello alterato. Dal momento che la rete accetta come corretta solamente la catena più lunga, tale attaccante dovrebbe validare i blocchi più velocemente del resto della rete, per poter ad un certo punto superare la lunghezza della blockchain ``ufficiale" e veder riuscire il suo attacco.
@@ -111,7 +114,7 @@
 				\begin{figure}[ht]
 					\centering
 					\includegraphics[width=\textwidth]{bitcoin_supply.png}
-					\caption{Emissione fissata di bitcoin}
+					\caption[Emissione fissata di bitcoin]{Emissione fissata di bitcoin.}
 					\label{fig:bitcoin_supply}
 				\end{figure}
 				L'ultima frazione di bitcoin generata sarà creata nel 2141: a quel punto verrà meno, apparentemente, l'incentivo al mining ``onesto". Nonostante questo possa sembrare uno scenario remoto per via della data ancora sufficientemente distante nel tempo, il problema è più attuale di quanto sembri per via degli enormi costi delle attrezzature per il mining. La competizione in quest'ambito si è accesa e ha dato il via ad una corsa continua per accumulare la maggior potenza di calcolo possibile, alzando moltissimo la quantità di risorse necessarie in termini di hardware ed energia. Il momento in cui questi costi supereranno il valore della ricompensa è quindi molto più vicino della data di emissione dell'ultimo bitcoin. \\

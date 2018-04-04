@@ -68,6 +68,16 @@ In questo capitolo si vuole presentare il quadro attuale della situazione attorn
             
             \item \textbf{Hawk}: è un sistema di smart contract che affronta il problema della poca privacy nelle transazioni delle blockchain più diffuse. Hawk fornisce uno strumento per la generazione di un ``protocollo crittografico efficiente in cui le controparti del contratto interagiscono con la blockchain usando primitive crittografiche come gli algoritmi \emph{zero-knowledge proof}." \cite{hawk};
         \end{itemize}
+        \subsubsection{Non-blockchain: IOTA}
+            Da segnalare a questo proposito anche lo sviluppo di \emph{IOTA}. Si tratta di un registro distribuito fondato su una struttura dati alternativa a blockchain ma basata su concetti simili. Si parla in particolare di \emph{DAG}, un grafo orientato aciclico, che può essere immaginato come un reticolo formato da più blockchain intrecciate. Ciascuna transazione deve approvarne due precedenti, andando a creare una struttura come quella riportata in figura.
+            \begin{figure}[ht]
+                \centering
+                \includegraphics[width=\textwidth]{tangle.png}
+                \caption[Tangle: il DAG di IOTA]{Tangle: il DAG di IOTA.}
+                \label{fig:ethereum-load}
+            \end{figure}
+
+            Questa struttura dati sembra molto più veloce di una blockchain ``tradizionale'' e promette di risolverne molti dei problemi di scalabilità pur mantenendone l'affidabilità. Maggiori approfondimenti richiedono spiegazioni più dettagliate e corpose, che si possono trovare all'indirizzo \url{https://iota.org/}.
 
 \section{Sfide e ambiti di ricerca}
 
@@ -77,11 +87,14 @@ In questo capitolo si vuole presentare il quadro attuale della situazione attorn
             \item Algoritmi di consenso;
             \item Problemi crittografici nuovi.
         \end{itemize}
-        Il problema della scalabilità dei sistemi blockchain è molto dipendente dall'algoritmo di consenso implementato. Quelli ad oggi adottati su larga scala sono basati su proof-of-work, che paradossalmente basa la sua sicurezza sulla sua assoluta inefficienza. Inoltre, la storia di Bitcoin mostra come sia inefficace nel mantenere equilibrata la competizione tra i miner, portando un accentramento delle capacità di gestione della rete nelle mani di server farm dedicate. Ethereum migliora questo aspetto attraverso un algoritmo simile, ma in cui ha meno vantaggi investire in hardware dedicato. Tuttavia la ricerca ad un algoritmo che permetta l'effettiva ``democratizzazione'' del mining è ancora apertissima, accompagnata da quella su problemi crittografici meno parallelizzabili su cui basare ulteriori varianti degli algoritmi proof-of-work.
+        Il problema della scalabilità dei sistemi blockchain è molto dipendente dall'algoritmo di consenso implementato. Quelli ad oggi adottati su larga scala sono basati su proof-of-work, che paradossalmente basa la sua sicurezza sulla sua assoluta inefficienza. Inoltre, la storia di Bitcoin mostra come sia inefficace nel mantenere equilibrata la competizione tra i miner, portando un accentramento delle capacità di gestione della rete nelle mani di server farm dedicate. Ethereum migliora questo aspetto attraverso un algoritmo simile, ma in cui ha meno vantaggi investire in hardware dedicato (sebbene Bitmain, azienda cinese che crea ASIC per il mining di criptovalute, abbia annunciato nell'Aprile 2018 un prodotto progettato per il mining di Ethereum \cite{Antminer_E3}). Tuttavia la ricerca ad un algoritmo che permetta l'effettiva ``democratizzazione'' del mining è ancora apertissima, accompagnata da quella su problemi crittografici meno parallelizzabili su cui basare ulteriori varianti degli algoritmi proof-of-work.
+
+        Sono sicuramente da seguire gli sviluppi relativi ai sistemi basati sui DAG come IOTA, anche se non possono essere considerati propriamente soluzione ai problemi di scalabilità di blockchain in quanto si basano su una struttura dati differente, per quanto affine.
         
     \subsection{Standardizzazione e interoperabilità}
         Blockchain non è ancora una tecnologia sufficientemente matura da permettere una piena ed agevole integrazione con i sistemi esistenti. Emettere degli standard adeguati aiuterà a migliorare l'integrazione dei sistemi blockchain tanto fra di loro quanto con l'infrastruttura circostante. \\
         Dal punto di vista applicativo lo sviluppo di framework come Hyperledger aiuta a creare una base solida e delle sottostrutture chiare per la progettazione di reti distribuite interoperanti, e maggiore sarà il numero di utenti che abbracceranno soluzioni di questo tipo minori saranno le differenze critiche tra sistema e sistema permettendo adattamenti più agevoli. D'altra parte, è necessario che tali piattaforme si sviluppino e allarghino la gamma di scenari modellabili venendo incontro alle necessità di gruppi di utenti sempre più grandi ed eterogenei. \\
+        Un ambito in notevole fermento è quello che punta a definire standard per la gestione di identità digitali distribuite, che al momento conta sugli sforzi di numerosi gruppi di lavoro come i già citati \emph{W3C}, la community \emph{Rebooting The Web Of Trust} \cite{rebooting_web_of_trust} e i gruppi di lavoro di Hyperledger Indy e della Sovrin Foundation. \\
         Dal punto di vista normativo invece si sono visti passi in avanti con la creazione nel 2016 del comitato tecnico ISO/TC 307 ``blockchain and distributed ledger technologies", che sta sviluppando il primo standard ISO ufficiale sull'argomento.
 
     \subsection{Privacy}

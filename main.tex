@@ -37,6 +37,23 @@
 	Vi voglio bene.
 }
 
+\newpage
+
+\makeatletter
+\renewenvironment{abstract}{
+  \if@twocolumn
+    \section*{\abstractname}
+  \else
+    \small
+    \begin{center}
+      {\bfseries \abstractname\vspace{-.5em}\vspace{\z@}}
+    \end{center}
+    \quotation
+  \fi}
+  {\if@twocolumn\else\endquotation\fi}
+\makeatother
+
+\chapter*{}
 \begin{otherlanguage}{english}
 \begin{abstract}
 	Il lavoro svolto durante il tirocinio presso Infocamere SCpA ha riguardato lo studio della tecnologia blockchain allo scopo di comprenderne le potenzialità in alcuni contesti quali ausilio alle normative e servizi di sicurezza del data center. Nell'ultimo anno in particolare si ha assistito ad un notevole aumento di interesse nei confronti di blockchain, e al proliferare di studi e articoli a riguardo. Le potenzialità che si intravedono sono di importanza tale da richiamare l'attenzione di esperti e aziende in tutto il mondo. Di contro, l'argomento si dimostra difficile da padroneggiare e da utilizzare in modo appropriato. L'insieme di questi fattori fa sì che sempre più aziende comincino ad investire e sperimentare su blockchain, in modo da accumulare internamente sufficiente esperienza da trovarsi pronti all'azione qualora si presentasse un'occasione adatta. 

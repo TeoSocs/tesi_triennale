@@ -1,14 +1,29 @@
 In questo capitolo si vuole presentare il quadro attuale della situazione attorno ai sistemi blockchain. Nuove tecnologie sono sviluppate continuamente, perciò dopo una breve panoramica sui progetti più interessanti già in stadio avanzato di sviluppo si illustreranno le sfide e gli ambiti di ricerca più ferventi, fino ad arrivare ad elencare alcune delle applicazioni che potrebbero conseguire dai risultati di tali ricerche.
 
 \section{Innovazioni vicine}
-    Al momento si assiste ad una crescita rapidissima di Bitcoin, tale da portare l'argomento al di fuori degli ambiti specialistici e farlo diventare un vero e proprio fenomeno di massa.
+    Nel 2017 si è verificata una crescita rapidissima di Bitcoin, tale da portare l'argomento al di fuori degli ambiti specialistici e farlo diventare un vero e proprio fenomeno di massa.
     \begin{figure}[ht]
         \centering
         \includegraphics[width=\textwidth]{bitcoin-price.png}
-        \caption[Valore di mercato di Bitcoin]{Valore di mercato di Bitcoin.}
+        \caption[Valore di mercato di Bitcoin nel 2017]{Crescita del valore di mercato di Bitcoin nel 2017.}
         \label{fig:bitcoin_price}
     \end{figure}
-    Dietro a Bitcoin si sta sviluppando un'enorme quantità di applicazioni e sperimentazioni che riguardano blockchain, alcune delle quali hanno raggiunto ormai una certa stabilità. Molte di queste riguardano l'ambito economico e prendono il nome di \emph{criptomonete}, altre invece si basano sulla blockchain per costruire sistemi più complessi.
+    Dietro a Bitcoin si è sviluppata un'enorme quantità di applicazioni e sperimentazioni che riguardano blockchain, alcune delle quali hanno raggiunto ormai una certa stabilità. Molte di queste riguardano l'ambito economico e prendono il nome di \emph{criptomonete}, altre invece si basano sulla blockchain per costruire sistemi più complessi.
+
+    \paragraph{Il crollo delle criptovalute} ~ \\
+    Non tutti i progetti avviati negli ultimi anni vanno però a buon fine.
+    Le dichiarazioni del governo sudcoreano prospettanti un possibile blocco delle criptovalute, avvenute a metà gennaio, hanno inaugurato un periodo difficoltoso per il mercato delle monete basate su blockchain. Prendendo come riferimento Bitcoin, che si mantiene al primo posto per quanto riguarda il valore di mercato e pertanto riflette piuttosto bene l'andamento generale, dopo aver raggiunto il picco di circa 19'500 dollari a metà dicembre ha visto il suo valore crollare a poco meno di 7'000 dollari, con giornate particolarmente critiche che hanno registrato svalutazioni di oltre il 10\% nell'arco di 24 ore.
+
+        \begin{figure}[ht]
+            \centering
+            \includegraphics[width=\textwidth]{bitcoin-price-update.png}
+            \caption[Valore di Bitcoin nell'ultimo anno]{Valore di Bitcoin nell'ultimo anno.}
+            \label{fig:bitcoin-price-update}
+        \end{figure}
+
+    L'intero ecosistema che ruota attorno alla tecnologia blockchain è stato condizionato dalla disillusione portata dal crollo delle criptovalute. Molti progetti si sono arenati e, in generale, ci si sta rendendo conto delle difficoltà di sviluppo e mantenimento di tali sistemi \cite{blockchain_delusion}. Questo non ha fermato l'avanzamento di altri gruppi di lavoro, i cui prodotti hanno raggiunto la stabilità necessaria per proporsi come \emph{stabili}.
+
+    Di seguito si riportano alcune soluzioni tra le più affermate basate su tecnologia blockchain disponibili. L'elenco non è esaustivo, poiché lo scenario è estremamente mutevole, ma mira a fornire una visione di insieme che possa essere una buona base per ricerche ulteriori.
     
     \subsection{Criptomonete}
         \begin{itemize}
@@ -22,16 +37,35 @@ In questo capitolo si vuole presentare il quadro attuale della situazione attorn
      
     \subsection{Non-Criptomonete} \label{sec:non-crypto}
         \begin{itemize}
-            \item \textbf{Ethereum}: si tratta del principale sistema basato su blockchain dopo Bitcoin. Il suo scopo è quello di permettere la creazione di applicazioni decentralizzate, che vengono eseguite come smart contract distribuiti tra i peer che partecipano alla rete. È il primo sistema blockchain ad aver introdotto un linguaggio Turing-completo (\emph{Solidity}) e il concetto di macchina virtuale su blockchain, nel 2013. Si basa su una propria moneta virtuale che viene utilizzata per ``alimentare" le applicazioni distribuite (in ambito Ethereum si parla di \emph{gas}, abbreviazione di \emph{gasoline}). Questa si chiama \emph{Ether}, e al momento si trova saldamente al secondo posto come market cap dietro a Bitcoin;
-            \item \textbf{Hyperledger Sawtooth}: Sawtooth è il framework del progetto Hyperledger a cui contribuisce Intel. Riprende l'idea di framework modulare propria di Fabric, ma ne rappresenta una versione maggiormente decentralizzata e indipendente da un ordering service sfruttando un particolare algoritmo di consenso di default, detto Proof of Elapsed Time (PoET), che permette un funzionamento simile a quello della rete Bitcoin prescindendo dai problemi di consumo energetico in precedenza descritti. Hyperledger Sawtooth punta soprattutto alla versatilità supportando sia configurazioni di tipo permissioned che di tipo permissionless, unico progetto Hyperledger a farlo;
+            \item \textbf{Ethereum}: si tratta del principale sistema basato su blockchain dopo Bitcoin. Il suo scopo è quello di permettere la creazione di applicazioni decentralizzate, che vengono eseguite come smart contract distribuiti tra i peer che partecipano alla rete. È il primo sistema blockchain ad aver introdotto un linguaggio Turing-completo (\emph{Solidity}) e il concetto di macchina virtuale su blockchain, nel 2013. Si basa su una propria moneta virtuale che viene utilizzata per ``alimentare" le applicazioni distribuite (in ambito Ethereum si parla di \emph{gas}, abbreviazione di \emph{gasoline}). Questa si chiama \emph{Ether}, e al momento si trova saldamente al secondo posto come market cap dietro a Bitcoin.
+
+            La rete di Ethereum si è recentemente trovata interessata da un considerevole aumento di carico, con il picco massimo nel mese di gennaio, dovuto alla diffusione dei \emph{Crypto Kitties}. Si tratta di animaletti digitali, simili ai più datati Tamagochi, che vivono e si riproducono nella blockchain di Ethereum alimentando un correlato mercato di collezionisti. Il traffico da loro generato è arrivato a rappresentare oltre il 20\% del traffico totale di Ethereum, il quale si è mostrata capace di affrontare l'impennata di transazioni adeguatamente seppure con una risposta iniziale piuttosto lenta che ha fatto temere per il congestionamento del sistema.
+
+            \begin{figure}[ht]
+                \centering
+                \includegraphics[width=\textwidth]{ethereum-load.png}
+                \caption[Numero di transazioni giornaliere su Ethereum]{Numero di transazioni giornaliere su Ethereum.}
+                \label{fig:ethereum-load}
+            \end{figure}
+
+            \item \textbf{Hyperledger Sawtooth}: Sawtooth è il framework del progetto Hyperledger a cui contribuisce Intel. Riprende l'idea di framework modulare propria di Fabric, ma ne rappresenta una versione maggiormente decentralizzata e indipendente da un ordering service sfruttando un particolare algoritmo di consenso di default, detto Proof of Elapsed Time (PoET), che permette un funzionamento simile a quello della rete Bitcoin prescindendo dai problemi di consumo energetico in precedenza descritti. Hyperledger Sawtooth punta soprattutto alla versatilità supportando sia configurazioni di tipo permissioned che di tipo permissionless, unico progetto Hyperledger a farlo. Recentemente è uscita la versione 1.0.1, che ne sancisce la raggiunta stabilità;
+
             \item \textbf{Hyperledger Iroha}: Iroha è un framework blockchain a cui contribuiscono Soramitsu, Hitachi, NTT Data e Colu. Hyperledger Iroha è progettato per essere semplice da integrare in progetti di infrastrutture basate su blockchain. Punta soprattutto allo sviluppo di applicazioni mobile, fornendo librerie client per Android e iOS. Ispirandosi a Hyperledger Fabric, Hyperledger Iroha cerca di fare da complemento ad Hyperledger Fabric e Hyperledger Sawtooth, fornendo nel contempo un ambiente di sviluppo per i programmatori C++ interessati a contribuire al progetto Hyperledger;
-            \item \textbf{Hyperledger Indy}: è un sistema progettato per la gestione di identità digitali. Ancora in sviluppo, si avvale dei contributi della Sovrin Foundation ed è qui riportato come scenario futuro interessante: la riuscita di un progetto di questo tipo porterebbe un'accelerazione a tutti quei sistemi blockchain che necessitato di autenticazione utente, operazione finora relegata off-chain e a responsabilità di un garante. L'inserimento di Indy tra i progetti Hyperledger è sufficiente per richiamare l'attenzione sui suoi sviluppi futuri, sperando che presto raggiunga abbastanza stabilità da poterci basare altri servizi;
+
+            \item \textbf{Hyperledger Indy}: è un sistema progettato per la gestione di identità digitali. Si avvale dei contributi della Sovrin Foundation ed è qui riportato come scenario futuro interessante: la riuscita di un progetto di questo tipo porterebbe un'accelerazione a tutti quei sistemi blockchain che necessitato di autenticazione utente, operazione finora relegata off-chain e a responsabilità di un garante. L'inserimento di Indy tra i progetti Hyperledger è sufficiente per richiamare l'attenzione sui suoi sviluppi futuri, sperando che presto raggiunga abbastanza stabilità da poterci basare altri servizi. Una notevole spinta in questo senso è quella data dai molteplici tentativi di standardizzazione, oggetto dei lavori congiunti di \emph{W3C} e della community \emph{Rebooting The Web Of Trust} \cite{rebooting_web_of_trust};
+
             \item \textbf{Quorum}: creata da JPMorgan, Quorum è di fatto un fork della blockchain pubblica di Ethereum che usa un algoritmo di consenso basato su votazione per fornire una piattaforma orientata all'uso enterprise di smart contract. La privacy dei dati è raggiunta nella rete di Quorum esponendoli sulla base delle necessità effettive del nodo;
+
             \item \textbf{OpenTimestamps}: servizio che mira a diventare uno standard per il timestamping via blockchain. Concatena hash crittografici dei dati di cui gli utenti richiedono il timestamping e ne registra il risultato in una transazione bitcoin, rendendolo quindi pubblico e immutabile;
+
             \item \textbf{Namecoin}: servizio basato su blockchain che si propone di potenziare decentralizzazione, sicurezza, resistenza alla censura, privacy e velocità di componenti alcune dell'infrastruttura di Internet come i DNS;
+
             \item \textbf{Everledger}: una nicchia promettente riguarda i sistemi ad-hoc con utilizzo ben preciso. Ne è un esempio Everledger, che si propone di tracciare e gestire storia e possesso di beni di lusso come i diamanti;
+
             \item \textbf{Filament}: la natura distribuita di blockchain la rende ideale per implementazione di applicazioni IoT che richiedano un adeguato livello di sicurezza. Lavora in questo ambito Filament, startup nata recentemente, nel 2017, che si pone come obiettivo la gestione di reti wireless sicure in ambito IoT;
+
             \item \textbf{Blockchain a livello enterprise}: per la creazione di applicazioni aziendali basate su blockchain è necessario appoggiarsi ad opportuni framework. Questi devono rispettare requisiti imprescindibili per l'ambito business, tra cui fornire opportuna documentazione, supporto tecnico e rendere agevoli le operazioni di testing, integrazione, controlli di sicurezza. Esempi di piattaforme simili in sviluppo sono Hyperledger, Bloq, Chain, sebbene ciascuno di questi soffra al momento di poca stabilità dovuta alla loro ancora recente nascita;
+            
             \item \textbf{Hawk}: è un sistema di smart contract che affronta il problema della poca privacy nelle transazioni delle blockchain più diffuse. Hawk fornisce uno strumento per la generazione di un ``protocollo crittografico efficiente in cui le controparti del contratto interagiscono con la blockchain usando primitive crittografiche come gli algoritmi \emph{zero-knowledge proof}." \cite{hawk};
         \end{itemize}
 
